@@ -4,7 +4,7 @@
 //
 // 2013-07-17 GONG Chen <chen.sst@gmail.com>
 //
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <utf8.h>
 #include <rime/config.h>
 #include <rime/algo/encoder.h>
@@ -96,7 +96,7 @@ bool TableEncoder::LoadSettings(Config* config) {
       auto pattern = As<ConfigValue>(*it);
       if (!pattern)
         continue;
-      exclude_patterns_.push_back(boost::regex(pattern->str()));
+      exclude_patterns_.push_back(std::regex(pattern->str()));
     }
   }
   config->GetString("encoder/tail_anchor", &tail_anchor_);
@@ -131,8 +131,8 @@ bool TableEncoder::ParseFormula(const string& formula,
 }
 
 bool TableEncoder::IsCodeExcluded(const string& code) {
-  for (const boost::regex& pattern : exclude_patterns_) {
-    if (boost::regex_match(code, pattern))
+  for (const std::regex& pattern : exclude_patterns_) {
+    if (std::regex_match(code, pattern))
       return true;
   }
   return false;

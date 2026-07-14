@@ -5,7 +5,7 @@
 // 2012-04-22 GONG Chen <chen.sst@gmail.com>
 //
 #include <algorithm>
-#include <boost/range/adaptor/reversed.hpp>
+#include <rime/reverse.hpp>
 #include <rime/config.h>
 #include <rime/schema.h>
 #include <rime/ticket.h>
@@ -22,7 +22,7 @@ bool Patterns::Load(an<ConfigList> patterns) {
     return false;
   for (auto it = patterns->begin(); it != patterns->end(); ++it) {
     if (auto value = As<ConfigValue>(*it)) {
-      push_back(boost::regex(value->str()));
+      push_back(std::regex(value->str()));
     }
   }
   return true;
@@ -57,7 +57,7 @@ void Spans::Clear() {
 }
 
 size_t Spans::PreviousStop(size_t caret_pos) const {
-  for (auto x : boost::adaptors::reverse(vertices_)) {
+  for (auto x : rime::reverse(vertices_)) {
     if (x < caret_pos)
       return x;
   }
@@ -171,7 +171,7 @@ bool TranslatorOptions::IsUserDictDisabledFor(const string& input) const {
   if (user_dict_disabling_patterns_.empty())
     return false;
   for (const auto& pattern : user_dict_disabling_patterns_) {
-    if (boost::regex_match(input, pattern))
+    if (std::regex_match(input, pattern))
       return true;
   }
   return false;

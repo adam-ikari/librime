@@ -7,7 +7,7 @@
 #ifndef RIME_TRANSLATOR_COMMONS_H_
 #define RIME_TRANSLATOR_COMMONS_H_
 
-#include <boost/regex.hpp>
+#include <regex>
 #include <rime/common.h>
 #include <rime/config.h>
 #include <rime/candidate.h>
@@ -20,7 +20,7 @@ namespace rime {
 
 //
 
-class Patterns : public vector<boost::regex> {
+class Patterns : public vector<std::regex> {
  public:
   bool Load(an<ConfigList> patterns);
 };

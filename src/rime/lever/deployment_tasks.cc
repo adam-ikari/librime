@@ -8,11 +8,9 @@
 #include <rime/build_config.h>
 
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <filesystem>
-#include <boost/uuid/random_generator.hpp>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_io.hpp>
+#include <rime/uuid.hpp>
 #include <rime/common.h>
 #include <rime/resource.h>
 #include <rime/schema.h>
@@ -344,8 +342,11 @@ bool SchemaUpdate::Run(Deployer* deployer) {
   if (!config_file_update->Run(deployer)) {
     return false;
   }
-  // reload compiled config
-  config.reset(Config::Require("schema")->Create(schema_id));
+  // term-ime patch: skip the reload via Config::Require (which looks for a
+  // compiled schema in staging_dir that doesn't exist on a fresh deploy from
+  // source .yaml). The source-loaded config above already has __include/__patch
+  // expanded, so translator/dictionary is readable from it.
+  // config.reset(Config::Require("schema")->Create(schema_id));
   string dict_name;
   if (!config->GetString("translator/dictionary", &dict_name)) {
     // not requiring a dictionary
@@ -372,6 +373,13 @@ bool SchemaUpdate::Run(Deployer* deployer) {
       Service::instance().CreateDeployedResourceResolver(
           {"compiled_schema", "", ".schema.yaml"}));
   auto compiled_schema = resolver->ResolvePath(schema_id);
+  // term-ime patch: if the compiled schema doesn't exist in staging (fresh
+  // deploy from source .yaml, no prebuilt build/), fall back to the source
+  // schema file — LoadFromFile resolves __include/__patch so prism's
+  // speller/algebra is readable.
+  if (compiled_schema.empty() || !fs::exists(compiled_schema)) {
+    compiled_schema = source_path_;
+  }
   if (!dict_compiler.Compile(compiled_schema)) {
     LOG(ERROR) << "dictionary '" << dict_name << "' failed to compile.";
     return false;

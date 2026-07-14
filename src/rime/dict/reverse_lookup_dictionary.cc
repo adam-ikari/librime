@@ -8,7 +8,7 @@
 #include <cfloat>
 #include <cstdlib>
 #include <sstream>
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <rime/resource.h>
 #include <rime/schema.h>
 #include <rime/service.h>

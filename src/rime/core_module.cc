@@ -34,7 +34,13 @@ static void rime_core_initialize() {
   auto config_loader =
       new ConfigComponent<ConfigLoader, DeployedConfigResourceProvider>;
   r.Register("config", config_loader);
-  r.Register("schema", new SchemaComponent(config_loader));
+  // term-ime patch: SchemaComponent uses config_builder (not config_loader) so
+  // __include/__patch in schema files are resolved at load time. config_loader
+  // only reads pre-compiled staging files (which don't exist on a fresh deploy
+  // from source .yaml), leaving schemas incomplete and process_key() returns 0.
+  // config_builder resolves includes AND SaveOutputPlugin writes the compiled
+  // schema to staging for subsequent loads.
+  r.Register("schema", new SchemaComponent(config_builder));
 
   auto user_config =
       new ConfigComponent<ConfigLoader, UserConfigResourceProvider>(

@@ -16,3 +16,6 @@
 [submodule "opencc"]
 	path = deps/opencc
 	url = https://github.com/BYVoid/OpenCC.git
+[submodule "deps/librime"]
+	path = deps/librime
+	url = https://github.com/rime/librime.git

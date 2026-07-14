@@ -4,8 +4,8 @@
 //
 // 2011-06-19 GONG Chen <chen.sst@gmail.com>
 //
-#include <boost/algorithm/string.hpp>
-#include <boost/range/adaptor/reversed.hpp>
+#include <rime/string_utils.hpp>
+#include <rime/reverse.hpp>
 #include <rime/candidate.h>
 #include <rime/composition.h>
 #include <rime/menu.h>
@@ -169,7 +169,7 @@ string Composition::GetDebugText() const {
 string Composition::GetTextBefore(size_t pos) const {
   if (empty())
     return string();
-  for (const auto& seg : boost::adaptors::reverse(*this)) {
+  for (const auto& seg : rime::reverse(*this)) {
     if (seg.end <= pos) {
       if (auto cand = seg.GetSelectedCandidate()) {
         return cand->text();

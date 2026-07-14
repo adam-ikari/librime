@@ -63,15 +63,13 @@ if(MSVC)
 endif()
 
 if(LINUX)
-  find_package(Boost 1.74.0 REQUIRED COMPONENTS regex)
-else()
-  find_package(Boost 1.77.0)
+  # term-ime patched librime to drop Boost entirely: boost::regex -> std::regex,
+  # and boost::algorithm/signals2/interprocess/crc/uuid -> <rime/*.hpp> shims.
+  # No find_package(Boost) needed (the only <boost/...> include left in term-ime
+  # is boost/sml.hpp, from the bundled deps/sml submodule, not system Boost).
 endif()
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-  link_directories(${Boost_LIBRARY_DIRS})
-  add_definitions(-DBOOST_DLL_USE_STD_FS)
-endif()
+# Keep BOOST_DLL_USE_STD_FS so librime's path class uses std::filesystem.
+add_definitions(-DBOOST_DLL_USE_STD_FS)
 
 if(ENABLE_LOGGING)
 

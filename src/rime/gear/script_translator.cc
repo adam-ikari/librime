@@ -9,8 +9,8 @@
 #include <algorithm>
 #include <stack>
 #include <cmath>
-#include <boost/algorithm/string/join.hpp>
-#include <boost/range/adaptor/reversed.hpp>
+#include <rime/string_utils.hpp>
+#include <rime/reverse.hpp>
 #include <rime/common.h>
 #include <rime/composition.h>
 #include <rime/candidate.h>
@@ -58,7 +58,7 @@ static bool syllabify_dfs(SyllabifyTask* task,
   if (z == task->graph.edges.end())
     return false;
   // favor longer spellings
-  for (const auto& y : boost::adaptors::reverse(z->second)) {
+  for (const auto& y : rime::reverse(z->second)) {
     size_t end_vertex_pos = y.first;
     if (end_vertex_pos > task->target_pos)
       continue;

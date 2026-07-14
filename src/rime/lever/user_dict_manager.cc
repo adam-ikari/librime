@@ -5,9 +5,9 @@
 // 2012-03-23 GONG Chen <chen.sst@gmail.com>
 //
 #include <fstream>
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <filesystem>
-#include <boost/scope_exit.hpp>
+#include <rime/scope_exit.hpp>
 #include <rime/common.h>
 #include <rime/deployer.h>
 #include <rime/algo/utilities.h>
@@ -76,11 +76,10 @@ bool UserDictManager::Restore(const path& snapshot_file) {
     temp->Remove();
   if (!temp->Open())
     return false;
-  BOOST_SCOPE_EXIT((&temp)) {
+  auto _se_temp = rime::make_scope_exit([&] {
     temp->Close();
     temp->Remove();
-  }
-  BOOST_SCOPE_EXIT_END
+  });
   if (!temp->Restore(snapshot_file))
     return false;
   if (!UserDbHelper(temp).IsUserDb())
@@ -91,10 +90,9 @@ bool UserDictManager::Restore(const path& snapshot_file) {
   the<Db> dest(user_db_component_->Create(db_name));
   if (!dest->Open())
     return false;
-  BOOST_SCOPE_EXIT((&dest)) {
+  auto _se_dest = rime::make_scope_exit([&] {
     dest->Close();
-  }
-  BOOST_SCOPE_EXIT_END
+  });
   LOG(INFO) << "merging '" << snapshot_file << "' from "
             << UserDbHelper(temp).GetUserId() << " into userdb '" << db_name
             << "'...";
@@ -108,10 +106,9 @@ int UserDictManager::Export(const string& dict_name, const path& text_file) {
   the<Db> db(user_db_component_->Create(dict_name));
   if (!db->OpenReadOnly())
     return -1;
-  BOOST_SCOPE_EXIT((&db)) {
+  auto _se_db = rime::make_scope_exit([&] {
     db->Close();
-  }
-  BOOST_SCOPE_EXIT_END
+  });
   if (!UserDbHelper(db).IsUserDb())
     return -1;
   TsvWriter writer(text_file, TableDb::format.formatter);
@@ -132,10 +129,9 @@ int UserDictManager::Import(const string& dict_name, const path& text_file) {
   the<Db> db(user_db_component_->Create(dict_name));
   if (!db->Open())
     return -1;
-  BOOST_SCOPE_EXIT((&db)) {
+  auto _se_db = rime::make_scope_exit([&] {
     db->Close();
-  }
-  BOOST_SCOPE_EXIT_END
+  });
   if (!UserDbHelper(db).IsUserDb())
     return -1;
   TsvReader reader(text_file, TableDb::format.parser);

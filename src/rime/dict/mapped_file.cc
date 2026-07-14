@@ -8,12 +8,17 @@
 //
 #include <fstream>
 #include <filesystem>
-#include <boost/interprocess/file_mapping.hpp>
-#include <boost/interprocess/mapped_region.hpp>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <rime/dict/mapped_file.h>
 
 namespace rime {
 
+// Minimal boost::interprocess::{file_mapping, mapped_region} replacement using
+// POSIX mmap. Provides the subset mapped_file.cc needs: open a file, map it
+// read-only or read-write, expose address/size, flush, and remove.
 class MappedFileImpl {
  public:
   enum OpenMode {
@@ -22,25 +27,47 @@ class MappedFileImpl {
   };
 
   MappedFileImpl(const path& file_path, OpenMode mode) {
-    boost::interprocess::mode_t file_mapping_mode =
-        (mode == kOpenReadOnly) ? boost::interprocess::read_only
-                                : boost::interprocess::read_write;
-    file_.reset(new boost::interprocess::file_mapping(file_path.c_str(),
-                                                      file_mapping_mode));
-    region_.reset(
-        new boost::interprocess::mapped_region(*file_, file_mapping_mode));
+    int flags = (mode == kOpenReadOnly) ? O_RDONLY : O_RDWR;
+    fd_ = ::open(file_path.c_str(), flags);
+    if (fd_ < 0) return;
+    struct stat st;
+    if (::fstat(fd_, &st) != 0) {
+      ::close(fd_);
+      fd_ = -1;
+      return;
+    }
+    size_ = static_cast<size_t>(st.st_size);
+    int prot = (mode == kOpenReadOnly) ? PROT_READ : (PROT_READ | PROT_WRITE);
+    void* addr = nullptr;
+    if (size_ > 0) {
+      addr = ::mmap(nullptr, size_, prot, MAP_SHARED, fd_, 0);
+      if (addr == MAP_FAILED) {
+        addr = nullptr;
+        size_ = 0;
+      }
+    }
+    addr_ = addr;
+    writable_ = (mode == kOpenReadWrite);
   }
   ~MappedFileImpl() {
-    region_.reset();
-    file_.reset();
+    if (addr_) ::munmap(addr_, size_);
+    if (fd_ >= 0) ::close(fd_);
   }
-  bool Flush() { return region_->flush(); }
-  void* get_address() const { return region_->get_address(); }
-  size_t get_size() const { return region_->get_size(); }
+  bool Flush() {
+    if (!addr_) return false;
+    return ::msync(addr_, size_, MS_SYNC) == 0;
+  }
+  void* get_address() const { return addr_; }
+  size_t get_size() const { return size_; }
+
+  // Replaces boost::interprocess::file_mapping::remove — just unlink the file.
+  static bool remove(const char* path) { return ::unlink(path) == 0; }
 
  private:
-  the<boost::interprocess::file_mapping> file_;
-  the<boost::interprocess::mapped_region> region_;
+  int fd_ = -1;
+  void* addr_ = nullptr;
+  size_t size_ = 0;
+  bool writable_ = false;
 };
 
 MappedFile::MappedFile(const path& file_path) : file_path_(file_path) {}
@@ -122,7 +149,7 @@ bool MappedFile::ShrinkToFit() {
 bool MappedFile::Remove() {
   if (IsOpen())
     Close();
-  return boost::interprocess::file_mapping::remove(file_path_.c_str());
+  return MappedFileImpl::remove(file_path_.c_str());
 }
 
 bool MappedFile::Resize(size_t capacity) {

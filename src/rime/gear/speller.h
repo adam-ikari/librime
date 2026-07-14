@@ -7,7 +7,7 @@
 #ifndef RIME_SPELLER_H_
 #define RIME_SPELLER_H_
 
-#include <boost/regex.hpp>
+#include <regex>
 #include <rime/common.h>
 #include <rime/component.h>
 #include <rime/processor.h>
@@ -44,7 +44,8 @@ class Speller : public Processor {
   int max_code_length_ = 0;
   bool auto_select_ = false;
   bool use_space_ = false;
-  boost::regex auto_select_pattern_;
+  std::regex auto_select_pattern_;
+  bool has_auto_select_pattern_ = false;  // std::regex has no empty()
   AutoClearMethod auto_clear_ = kClearNone;
 };
 

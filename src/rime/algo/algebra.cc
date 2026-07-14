@@ -68,7 +68,7 @@ bool Projection::Load(an<ConfigList> settings) {
     an<Calculation> x;
     try {
       x.reset(calc.Parse(formula));
-    } catch (boost::regex_error& e) {
+    } catch (std::regex_error& e) {
       LOG(ERROR) << "Error parsing formula '" << formula << "': " << e.what();
     }
     if (!x) {

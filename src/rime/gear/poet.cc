@@ -7,6 +7,7 @@
 // 2011-10-06 GONG Chen <chen.sst@gmail.com>
 //
 #include <algorithm>
+#include <cmath>
 #include <functional>
 #include <rime/candidate.h>
 #include <rime/config.h>

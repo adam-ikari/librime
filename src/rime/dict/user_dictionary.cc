@@ -7,8 +7,8 @@
 #include <algorithm>
 #include <cfloat>
 #include <cmath>
-#include <boost/algorithm/string.hpp>
-#include <boost/scope_exit.hpp>
+#include <rime/string_utils.hpp>
+#include <rime/scope_exit.hpp>
 #include <rime/common.h>
 #include <rime/language.h>
 #include <rime/schema.h>
@@ -228,10 +228,9 @@ void UserDictionary::DfsLookup(const SyllableGraph& syll_graph,
                << ", syll_id: " << spelling.first
                << ", num_spellings: " << spelling.second.size();
     state->code.push_back(spelling.first);
-    BOOST_SCOPE_EXIT((&state)) {
+    auto _se_code = rime::make_scope_exit([&] {
       state->code.pop_back();
-    }
-    BOOST_SCOPE_EXIT_END
+    });
     if (!TranslateCodeToString(state->code, &prefix))
       continue;
     for (size_t i = 0; i < spelling.second.size(); ++i) {
@@ -247,11 +246,10 @@ void UserDictionary::DfsLookup(const SyllableGraph& syll_graph,
           (is_normal_spelling ? 1.0 : 0.0) * (end_pos - current_pos);
       state->quality_len.push_back(state->quality_len.back() +
                                    delta_quality_len);
-      BOOST_SCOPE_EXIT((&state)) {
+      auto _se_cred = rime::make_scope_exit([&] {
         state->credibility.pop_back();
         state->quality_len.pop_back();
-      }
-      BOOST_SCOPE_EXIT_END
+      });
       DLOG(INFO) << "edge: [" << current_pos << ", " << end_pos << ")";
       if (prefix != state->key) {  // 'a b c |d ' > 'a b c \tabracadabra'
         DLOG(INFO) << "forward scanning for '" << prefix << "'.";

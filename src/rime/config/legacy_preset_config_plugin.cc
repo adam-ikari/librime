@@ -2,7 +2,7 @@
 // Copyright RIME Developers
 // Distributed under the BSD License
 //
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <rime/config/config_compiler_impl.h>
 #include <rime/config/config_cow_ref.h>
 #include <rime/config/plugins.h>

@@ -4,8 +4,8 @@
 //
 // 2011-07-10 GONG Chen <chen.sst@gmail.com>
 //
-#include <boost/algorithm/string.hpp>
-#include <boost/range/adaptor/reversed.hpp>
+#include <rime/string_utils.hpp>
+#include <rime/reverse.hpp>
 #include <cmath>
 #include <utf8.h>
 #include <rime/candidate.h>
@@ -637,7 +637,7 @@ an<Translation> TableTranslator::MakeSentence(const string& input,
       dict_->prism()->CommonPrefixSearch(input.substr(start_pos), &matches);
       if (matches.empty())
         continue;
-      for (const auto& m : boost::adaptors::reverse(matches)) {
+      for (const auto& m : rime::reverse(matches)) {
         if (m.length == 0)
           continue;
         size_t consumed_length =

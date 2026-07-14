@@ -4,7 +4,7 @@
 //
 // 2012-01-03 GONG Chen <chen.sst@gmail.com>
 //
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <rime/candidate.h>
 #include <rime/engine.h>
 #include <rime/schema.h>

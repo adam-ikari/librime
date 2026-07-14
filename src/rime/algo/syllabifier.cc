@@ -7,7 +7,7 @@
 //
 #include <algorithm>
 #include <queue>
-#include <boost/range/adaptor/reversed.hpp>
+#include <rime/reverse.hpp>
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/corrector.h>
 #include <rime/dict/prism.h>
@@ -291,7 +291,7 @@ void Syllabifier::CheckOverlappedSpellings(SyllableGraph* graph,
 void Syllabifier::Transpose(SyllableGraph* graph) {
   for (const auto& start : graph->edges) {
     auto& index(graph->indices[start.first]);
-    for (const auto& end : boost::adaptors::reverse(start.second)) {
+    for (const auto& end : rime::reverse(start.second)) {
       for (const auto& spelling : end.second) {
         SyllableId syll_id = spelling.first;
         index[syll_id].push_back(&spelling.second);

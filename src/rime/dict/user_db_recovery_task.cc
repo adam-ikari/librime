@@ -4,9 +4,9 @@
 //
 // 2013-04-22 GONG Chen <chen.sst@gmail.com>
 //
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <filesystem>
-#include <boost/scope_exit.hpp>
+#include <rime/scope_exit.hpp>
 #include <rime/deployer.h>
 #include <rime/dict/db.h>
 #include <rime/dict/user_db.h>
@@ -24,10 +24,9 @@ bool UserDbRecoveryTask::Run(Deployer* deployer) {
   if (!db_) {
     return false;
   }
-  BOOST_SCOPE_EXIT((&db_)) {
+  auto _se_db = rime::make_scope_exit([&] {
     db_->enable();
-  }
-  BOOST_SCOPE_EXIT_END
+  });
 
   if (db_->loaded()) {
     LOG(WARNING) << "cannot recover loaded db '" << db_->name() << "'.";

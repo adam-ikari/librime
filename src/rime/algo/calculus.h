@@ -9,7 +9,7 @@
 #define RIME_CALCULUS_H_
 
 #include <stdint.h>
-#include <boost/regex.hpp>
+#include <regex>
 #include <rime_api.h>
 #include <rime/common.h>
 #include "spelling.h"
@@ -54,7 +54,7 @@ class Transformation : public Calculation {
   bool Apply(Spelling* spelling) override;
 
  protected:
-  boost::regex pattern_;
+  std::regex pattern_;
   string replacement_;
 };
 
@@ -66,7 +66,7 @@ class Erasion : public Calculation {
   bool addition() override { return false; }
 
  protected:
-  boost::regex pattern_;
+  std::regex pattern_;
 };
 
 // derive/x/X/

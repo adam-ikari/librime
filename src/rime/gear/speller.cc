@@ -81,6 +81,7 @@ Speller::Speller(const Ticket& ticket)
     string pattern;
     if (config->GetString("speller/auto_select_pattern", &pattern)) {
       auto_select_pattern_ = pattern;
+      has_auto_select_pattern_ = true;
     }
     string auto_clear;
     if (config->GetString("speller/auto_clear", &auto_clear)) {
@@ -171,13 +172,13 @@ bool Speller::AutoSelectUniqueCandidate(Context* ctx) {
   const string& input(ctx->input());
   auto cand = seg.GetSelectedCandidate();
   bool matches_input_pattern = false;
-  if (auto_select_pattern_.empty()) {
+  if (!has_auto_select_pattern_) {
     matches_input_pattern =
         max_code_length_ == 0 ||  // match any length if not set
         reached_max_code_length(cand, max_code_length_);
   } else {
     string code(input.substr(cand->start(), cand->end()));
-    matches_input_pattern = boost::regex_match(code, auto_select_pattern_);
+    matches_input_pattern = std::regex_match(code, auto_select_pattern_);
   }
   if (matches_input_pattern && is_auto_selectable(cand, input, delimiters_)) {
     ctx->ConfirmCurrentSelection();
@@ -189,7 +190,7 @@ bool Speller::AutoSelectUniqueCandidate(Context* ctx) {
 bool Speller::AutoSelectPreviousMatch(Context* ctx, Segment* previous_segment) {
   if (!auto_select_)
     return false;
-  if (max_code_length_ > 0 || !auto_select_pattern_.empty())
+  if (max_code_length_ > 0 || has_auto_select_pattern_)
     return false;
   if (ctx->HasMenu())  // if and only if current conversion fails
     return false;

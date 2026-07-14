@@ -4,7 +4,7 @@
 //
 // 2013-08-31 GONG Chen <chen.sst@gmail.com>
 //
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <rime/dict/dict_settings.h>
 #include <rime/dict/user_dictionary.h>
 #include <rime/dict/reverse_lookup_dictionary.h>

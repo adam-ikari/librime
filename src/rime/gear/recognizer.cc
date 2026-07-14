@@ -23,9 +23,9 @@ static void load_patterns(RecognizerPatterns* patterns, an<ConfigMap> map) {
     if (!value)
       continue;
     try {
-      boost::regex pattern(value->str());
+      std::regex pattern(value->str());
       (*patterns)[it->first] = pattern;
-    } catch (boost::regex_error& e) {
+    } catch (std::regex_error& e) {
       LOG(ERROR) << "error parsing pattern /" << value->str()
                  << "/: " << e.what();
     }
@@ -44,8 +44,8 @@ RecognizerMatch RecognizerPatterns::GetMatch(
   string active_input = input.substr(k);
   DLOG(INFO) << "matching active input '" << active_input << "' at pos " << k;
   for (const auto& v : *this) {
-    boost::smatch m;
-    if (boost::regex_search(active_input, m, v.second)) {
+    std::smatch m;
+    if (std::regex_search(active_input, m, v.second)) {
       size_t start = k + m.position();
       size_t end = start + m.length();
       if (end != input.length())

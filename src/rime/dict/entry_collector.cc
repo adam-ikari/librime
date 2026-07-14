@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <fstream>
 #include <utility>
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <rime/algo/strings.h>
 #include <rime/dict/dict_settings.h>
 #include <rime/dict/entry_collector.h>

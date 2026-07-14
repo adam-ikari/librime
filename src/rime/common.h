@@ -16,14 +16,15 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 #include <deque>
-#define BOOST_BIND_NO_PLACEHOLDERS
-#include <boost/signals2/connection.hpp>
-#include <boost/signals2/signal.hpp>
-#include <boost/unordered_map.hpp>
-#include <boost/unordered_set.hpp>
+// Minimal signal/slot replacement for boost::signals2 — provides signal<> and
+// connection (connect/disconnect/emit). Included before the rime namespace so
+// its `namespace rime { ... }` aligns rather than nesting.
+#include <rime/signal.hpp>
 
 #ifdef RIME_ENABLE_LOGGING
 #include <glog/logging.h>
@@ -50,9 +51,9 @@ using std::string;
 using std::vector;
 
 template <class Key, class T>
-using hash_map = boost::unordered_map<Key, T>;
+using hash_map = std::unordered_map<Key, T>;
 template <class T>
-using hash_set = boost::unordered_set<T>;
+using hash_set = std::unordered_set<T>;
 
 template <class T>
 using the = std::unique_ptr<T>;
@@ -77,9 +78,6 @@ template <class T, class... Args>
 inline an<T> New(Args&&... args) {
   return std::make_shared<T>(std::forward<Args>(args)...);
 }
-
-using boost::signals2::connection;
-using boost::signals2::signal;
 
 class path : public std::filesystem::path {
   using fs_path = std::filesystem::path;

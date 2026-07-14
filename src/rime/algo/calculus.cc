@@ -4,7 +4,7 @@
 //
 // 2012-01-17 GONG Chen <chen.sst@gmail.com>
 //
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <utf8.h>
 #include <rime/algo/calculus.h>
 #include <rime/common.h>
@@ -112,7 +112,7 @@ Calculation* Transformation::Parse(const vector<string>& args) {
 bool Transformation::Apply(Spelling* spelling) {
   if (!spelling || spelling->str.empty())
     return false;
-  string result = boost::regex_replace(spelling->str, pattern_, replacement_);
+  string result = std::regex_replace(spelling->str, pattern_, replacement_);
   if (result == spelling->str)
     return false;
   spelling->str.swap(result);
@@ -135,7 +135,7 @@ Calculation* Erasion::Parse(const vector<string>& args) {
 bool Erasion::Apply(Spelling* spelling) {
   if (!spelling || spelling->str.empty())
     return false;
-  if (!boost::regex_match(spelling->str, pattern_))
+  if (!std::regex_match(spelling->str, pattern_))
     return false;
   spelling->str.clear();
   return true;

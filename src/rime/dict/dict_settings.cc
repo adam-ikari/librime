@@ -5,7 +5,7 @@
 // 2012-11-11 GONG Chen <chen.sst@gmail.com>
 //
 #include <sstream>
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <rime/dict/dict_settings.h>
 
 namespace rime {

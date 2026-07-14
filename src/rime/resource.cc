@@ -3,7 +3,7 @@
 // Distributed under the BSD License
 //
 
-#include <boost/algorithm/string.hpp>
+#include <rime/string_utils.hpp>
 #include <filesystem>
 #include <rime/resource.h>
 

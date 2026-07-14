@@ -8,7 +8,7 @@
 #define RIME_UTILITIES_H_
 
 #include <stdint.h>
-#include <boost/crc.hpp>
+#include <rime/crc32.hpp>
 #include <rime/common.h>
 
 namespace rime {
@@ -22,7 +22,7 @@ class ChecksumComputer {
   uint32_t Checksum();
 
  private:
-  boost::crc_32_type crc_;
+  rime::crc_32_type crc_;
   static constexpr size_t buffer_size = 64 * 1024;  // 64 KB
 };
 

@@ -7,7 +7,7 @@
 #ifndef RIME_RECOGNIZER_H_
 #define RIME_RECOGNIZER_H_
 
-#include <boost/regex.hpp>
+#include <regex>
 #include <rime/common.h>
 #include <rime/processor.h>
 
@@ -27,7 +27,7 @@ struct RecognizerMatch {
   bool found() const { return start < end; }
 };
 
-class RecognizerPatterns : public map<string, boost::regex> {
+class RecognizerPatterns : public map<string, std::regex> {
  public:
   void LoadConfig(Config* config, const string& name_space);
   RecognizerMatch GetMatch(const string& input,
