@@ -87,11 +87,19 @@ RIME_DLL void SetupLogging(const char* app_name,
   // Do not allow other users to read/write log files created by current
   // process.
   FLAGS_logfile_mode = 0600;
+#ifdef RIME_HAVE_GLOG_IS_INITIALIZED
   if (google::IsGoogleLoggingInitialized()) {
     LOG(WARNING) << "Glog is already initialized.";
   } else {
     google::InitGoogleLogging(app_name);
   }
+#else
+  // glog >= 0.5 dropped google::IsGoogleLoggingInitialized() from its public
+  // API (and from its internal headers), so there is no version macro to branch
+  // on and no way to ask. InitGoogleLogging() is safe to call again, so call it
+  // and give up only the "already initialized" warning.
+  google::InitGoogleLogging(app_name);
+#endif
 #endif  // RIME_ENABLE_LOGGING
 }
 

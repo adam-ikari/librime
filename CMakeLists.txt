@@ -94,6 +94,26 @@ if(ENABLE_LOGGING)
       add_compile_definitions("GLOG_EXPORT=__attribute__((visibility(\"default\")))")
       add_compile_definitions("GLOG_NO_EXPORT=__attribute__((visibility(\"default\")))")
     endif()
+
+    # google::IsGoogleLoggingInitialized() existed in glog 0.4.x and was dropped
+    # from the public headers in 0.5.0 — it is not even declared in an internal
+    # header there, so there is no version macro to branch on. Probe for it
+    # instead, so this builds against both the vendored glog submodule (which
+    # still has it) and a system glog 0.5+. Without this, a standalone build
+    # against a distro glog fails with
+    #   'IsGoogleLoggingInitialized' is not a member of 'google'
+    # while a build that happens to use the vendored copy works — which is how
+    # the dependency on a specific glog stayed invisible for so long.
+    include(CheckCXXSymbolExists)
+    set(CMAKE_REQUIRED_INCLUDES ${Glog_INCLUDE_PATH})
+    set(CMAKE_REQUIRED_LIBRARIES ${Glog_LIBRARIES})
+    check_cxx_symbol_exists(google::IsGoogleLoggingInitialized
+                            "glog/logging.h" RIME_HAVE_GLOG_IS_INITIALIZED)
+    unset(CMAKE_REQUIRED_INCLUDES)
+    unset(CMAKE_REQUIRED_LIBRARIES)
+    if(RIME_HAVE_GLOG_IS_INITIALIZED)
+      add_compile_definitions(RIME_HAVE_GLOG_IS_INITIALIZED=1)
+    endif()
   endif()
 
   set(RIME_ENABLE_LOGGING 1)

@@ -15,6 +15,70 @@ const double kAbbreviationPenalty = -0.6931471805599453;   // log(0.5)
 const double kFuzzySpellingPenalty = -0.6931471805599453;  // log(0.5)
 const double kCorrectionPenalty = -4.605170185988091;      // log(0.01)
 
+namespace {
+
+// Upstream librime compiles xform/derive/abbrev/erase patterns with
+// boost::regex, which implements PCRE. This fork replaced it with std::regex to
+// drop the Boost dependency, but std::regex implements ECMAScript, and the two
+// disagree about the PCRE shorthand classes in a way that fails silently:
+//
+//   ^(\l+)\d$   against "zhang1"  PCRE: matches.  ECMAScript: \l is an escape
+//                                         for the literal letter 'l', so it
+//                                         matches "lll1" and not "zhang1".
+//   ^(\u)\d$    against "Z1"       PCRE: matches.  ECMAScript: throws
+//                                         std::regex_error outright.
+//
+// A schema that works upstream therefore either stops matching or crashes here,
+// and nothing reports it. Rewrite the shorthands ECMAScript lacks or reads
+// differently, so behaviour matches upstream without pulling Boost back in.
+//
+// \d \D \w \W \s \S are deliberately left alone: ECMAScript defines them with the
+// same meaning as PCRE. \p{...} is not translated — ECMAScript has no Unicode
+// property support, and silently matching something else would be worse than
+// failing, so it is left to raise the regex_error it always did.
+string TranslatePcreClasses(const string& pattern) {
+  string out;
+  out.reserve(pattern.size() + 8);
+  bool in_class = false;  // inside [...]
+  for (size_t i = 0; i < pattern.size(); ++i) {
+    char c = pattern[i];
+    if (c == '\\' && i + 1 < pattern.size()) {
+      char next = pattern[i + 1];
+      if (next == '\\') {  // an escaped backslash: copy both, stay literal
+        out += c;
+        out += next;
+        ++i;
+        continue;
+      }
+      // Inside a character class a bare range has to stay bare, because
+      // "[[a-z]]" would nest instead of unioning. Outside one, the class form is
+      // required — and it composes with quantifiers: \l+ -> [a-z]+.
+      const char* expanded = nullptr;
+      switch (next) {
+        case 'l': expanded = in_class ? "a-z"   : "[a-z]"; break;
+        case 'u': expanded = in_class ? "A-Z"   : "[A-Z]"; break;
+        default: break;
+      }
+      if (expanded) {
+        out += expanded;
+      } else {
+        out += c;
+        out += next;
+      }
+      ++i;
+      continue;
+    }
+    if (c == '[' && !in_class)
+      in_class = true;
+    else if (c == ']' && in_class)
+      in_class = false;
+    out += c;
+  }
+  return out;
+}
+
+}  // namespace
+
 Calculus::Calculus() {
   Register("xlit", &Transliteration::Parse);
   Register("xform", &Transformation::Parse);
@@ -104,7 +168,7 @@ Calculation* Transformation::Parse(const vector<string>& args) {
   if (left.empty())
     return NULL;
   the<Transformation> x(new Transformation);
-  x->pattern_.assign(left);
+  x->pattern_.assign(TranslatePcreClasses(left));
   x->replacement_.assign(right);
   return x.release();
 }
@@ -128,7 +192,7 @@ Calculation* Erasion::Parse(const vector<string>& args) {
   if (pattern.empty())
     return NULL;
   the<Erasion> x(new Erasion);
-  x->pattern_.assign(pattern);
+  x->pattern_.assign(TranslatePcreClasses(pattern));
   return x.release();
 }
 
@@ -157,21 +221,21 @@ Calculation* Derivation::Parse(const vector<string>& args) {
     // 糾錯
     if (tag == "correction") {
       the<Correction> x(new Correction);
-      x->pattern_.assign(left);
+      x->pattern_.assign(TranslatePcreClasses(left));
       x->replacement_.assign(right);
       return x.release();
     }
     // 簡拼
     if (tag == "abbrev") {
       the<Abbreviation> x(new Abbreviation);
-      x->pattern_.assign(left);
+      x->pattern_.assign(TranslatePcreClasses(left));
       x->replacement_.assign(right);
       return x.release();
     }
     // 模糊音
     if (tag == "fuzz") {
       the<Fuzzing> x(new Fuzzing);
-      x->pattern_.assign(left);
+      x->pattern_.assign(TranslatePcreClasses(left));
       x->replacement_.assign(right);
       return x.release();
     }
@@ -179,7 +243,7 @@ Calculation* Derivation::Parse(const vector<string>& args) {
   }
 
   the<Derivation> x(new Derivation);
-  x->pattern_.assign(left);
+  x->pattern_.assign(TranslatePcreClasses(left));
   x->replacement_.assign(right);
   return x.release();
 }
@@ -194,7 +258,7 @@ Calculation* Fuzzing::Parse(const vector<string>& args) {
   if (left.empty())
     return NULL;
   the<Fuzzing> x(new Fuzzing);
-  x->pattern_.assign(left);
+  x->pattern_.assign(TranslatePcreClasses(left));
   x->replacement_.assign(right);
   return x.release();
 }
@@ -218,7 +282,7 @@ Calculation* Abbreviation::Parse(const vector<string>& args) {
   if (left.empty())
     return NULL;
   the<Abbreviation> x(new Abbreviation);
-  x->pattern_.assign(left);
+  x->pattern_.assign(TranslatePcreClasses(left));
   x->replacement_.assign(right);
   return x.release();
 }
