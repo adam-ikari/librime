@@ -9,14 +9,15 @@
 | 文件 | 说明 |
 |------|------|
 | `luna_pinyin.dict.yaml` | 词库本体。70655 条字词 → 拼音映射。 |
-| `essay.txt` | 词频表，297731 条带权重词条。词库开了 `use_preset_vocabulary`，靠它加载词频 —— 缺了它候选会退化成按 Unicode 排序的单字（生僻字排在常用字前面），词组也出不来。 |
+| `essay.txt` | 词频表，442688 条带权重词条（2026-10 升级到 rime-essay 官方最新版，原 297731 条）。词库开了 `use_preset_vocabulary`，靠它加载词频 —— 缺了它候选会退化成按 Unicode 排序的单字（生僻字排在常用字前面），词组也出不来。 |
 | `opencc/` | 简繁转换数据，供 `luna_pinyin_simp` 方案的 simplifier 用。 |
 
 三个文件是一套：schema 按名字引用 `luna_pinyin` 词库，词库按名字加载 `essay.txt`，
 简体方案再挂 opencc 转换。改其中任何一个都要另两个配套。
 
-`LICENSE` 是这些数据的授权（MIT，Copyright (c) 2026 adam-ikari），与 librime 本体
-的 LGPL 分开。
+`LICENSE` 按文件分别标注授权：`luna_pinyin.dict.yaml` 与 `opencc/` 是 MIT
+（Copyright (c) 2026 adam-ikari）；`essay.txt` 派生自 rime/rime-essay，以 LGPL-3.0
+授权。整个 `dict/` 不是单一授权 —— 不能整体当作 MIT。
 
 ## 为什么并进来
 
