@@ -8,6 +8,20 @@ RIME: Rime Input Method Engine
 
 Rime with your keystrokes.
 
+> **This is `librime-stl`, a fork of [rime/librime](https://github.com/rime/librime).**
+> It powers [term-ime](https://github.com/adam-ikari/term-ime), a TTY input method,
+> and differs from upstream in three ways:
+> - **Engine library artifacts for four platforms** (Linux `.so` / Windows `.dll` /
+>   macOS `.dylib` / Android `.so`), consumed via the pure C API (`rime_api.h`).
+> - **Boost dropped** (`std::regex` + a minimal `<rime/*.hpp>` set); **opencc
+>   vendored** — the engine configure/build no longer needs a host Python or a
+>   host-built `opencc_dict`.
+> - **`dict/` is the bundled Simplified dictionary** (luna-pinyin + frequency table
+>   + opencc data), published as a versioned artifact. Its generators live in
+>   `dict/tools/` and are driven by explicit `make`, never by the CMake build graph.
+>
+> Only the dictionary is upstream-derived; the engine patches are this fork's own.
+
 Project home
 ---
 [rime.im](https://rime.im)
