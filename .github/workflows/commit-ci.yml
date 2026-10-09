@@ -39,6 +39,9 @@ jobs:
     with:
       rime_plugins: hchunhui/librime-lua lotem/librime-octagram rime/librime-predict
 
+  android:
+    needs: lint
+    uses: ./.github/workflows/android-build.yml
   docker:
     needs: lint
     uses: ./.github/workflows/docker-build.yml

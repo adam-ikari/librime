@@ -35,6 +35,7 @@ Install
 Follow the instructions to build librime on platforms other than Linux:
   - [macOS](https://github.com/rime/librime/tree/master/README-mac.md)
   - [Windows](https://github.com/rime/librime/tree/master/README-windows.md)
+  - [Android](https://github.com/adam-ikari/librime-stl/tree/master/README-android.md)
 
 Build dependencies
 ---

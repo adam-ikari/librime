@@ -1,0 +1,41 @@
+name: Android build
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        abi: [arm64-v8a, x86_64]
+    steps:
+      - name: Checkout last commit
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends cmake ninja-build
+
+      - name: Install NDK
+        run: |
+          curl -fSL -o "$RUNNER_TEMP/ndk.zip" \
+            https://dl.google.com/android/repository/android-ndk-r28-linux.zip
+          unzip -q "$RUNNER_TEMP/ndk.zip" -d "$RUNNER_TEMP"
+
+      - name: Build librime.so
+        run: |
+          NDK="$RUNNER_TEMP/android-ndk-r28" ./build-android.sh "${{ matrix.abi }}"
+
+      - name: Verify the artifact
+        run: |
+          lib="build/android-${{ matrix.abi }}/rime/lib/librime.so"
+          file "$lib" | grep -E 'ELF 64-bit.*(ARM aarch64|x86-64)' || { file "$lib"; exit 1; }
+          nm -D --defined-only "$lib" | grep -q ' T rime_get_api' \
+            || { echo "rime_get_api not exported as C symbol"; exit 1; }
+          readelf -d "$lib" | grep -q 'Shared library: \[liblog.so\]' \
+            || { echo "liblog missing from NEEDED"; exit 1; }
+          echo "OK $lib"
