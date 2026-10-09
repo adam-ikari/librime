@@ -1,0 +1,68 @@
+name: dict release
+on:
+  push:
+    tags:
+      - 'dict-*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout last commit
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends cmake ninja-build python3
+
+      - name: Check the tag names the content version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="$(cat dict/VERSION)"
+          if [ "$TAG" != "dict-$version" ]; then
+            echo "tag '$TAG' does not match dict/VERSION ('$version')" >&2
+            exit 1
+          fi
+
+      - name: Regenerate, compare, and package
+        run: |
+          make -C dict/tools check
+          make -C dict/tools package
+
+      - name: Verify the archive against its own sidecar
+        working-directory: dict/tools/.build
+        run: |
+          set -eu
+          archive="term-ime-dict-$(cat ../../../dict/VERSION).tar.gz"
+          sha256sum "$archive" > "$archive.sha256"
+          sha256sum -c "$archive.sha256"
+          # A consumer gets an install-shaped tree; assert the closure it needs.
+          tar -tzf "$archive" > contents.txt
+          for f in \
+            share/term-ime/rime-data/luna_pinyin.dict.yaml \
+            share/term-ime/rime-data/essay.txt \
+            share/term-ime/rime-data/opencc/t2s_full.json \
+            share/term-ime/rime-data/opencc/t2hk.json \
+            share/term-ime/rime-data/opencc/t2tw.json \
+            share/term-ime/rime-data/opencc/TSCharacters.ocd2 \
+            share/term-ime/rime-data/opencc/HKVariants.ocd2 \
+            share/term-ime/rime-data/opencc/TWVariants.ocd2 \
+            share/term-ime/rime-data/LICENSE \
+            share/term-ime/rime-data/VERSION; do
+            grep -q "^$f$" contents.txt || { echo "missing $f in $archive" >&2; exit 1; }
+          done
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dict/tools/.build/term-ime-dict-*.tar.gz
+            dict/tools/.build/term-ime-dict-*.tar.gz.sha256

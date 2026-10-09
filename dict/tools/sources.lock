@@ -1,0 +1,19 @@
+# 词库生成输入的版本坐标。改动这里等于换词库内容，必须跑 make check。
+#
+# essay-base: essay.txt 的词频来源。上游 rime/rime-essay@054920de（442688 行）
+# 的繁体快照，本仓在转简体之前把它提交为 dict/essay.txt，这里钉的是那个提交。
+# 条目数直接决定候选质量，必须钉死 commit，不能用分支名；从 git 历史取（
+# git show <SHA>:dict/essay.txt），所以重新生成需要完整历史，浅克隆取不到。
+essay-base = b1e8b2abad2dedd17fe9d714dc5b66fca3bb7d0e
+
+# opencc: TSCharacters.ocd2 等字形转换表与逐字转换行为的来源。本仓把它
+# vendored 在 deps/opencc（见 deps/opencc/UPSTREAM.md），这里的 SHA 是
+# vendored 内容对应的上游提交。
+opencc = 556ed22496d650bd0b13b6c163be9814637970ae
+
+# luna_pinyin 的繁体底本。它不是上游某个 release，而是本仓 64eda4c7 里
+# dict/luna_pinyin.dict.yaml 的那份繁体快照 —— 上游 rime-luna-pinyin 在
+# 那之后加了读音权重列、补了日文国字与注音索引，本仓又剪掉过 115 行。
+# 底本从 git 历史取（git show <SHA>:dict/luna_pinyin.dict.yaml），
+# 所以重新生成 luna_pinyin.dict.yaml 需要完整历史，浅克隆取不到。
+luna-pinyin-base = 64eda4c72b79d3f92a8a03b6c892a1c302fb6c52

@@ -64,9 +64,48 @@ git merge upstream/master        # dict/ 与上游无交集，正常不会冲突
 
 `dict/` 是上游不存在的目录，所以合并只会碰 librime 自己的文件。
 
-## 版本
+## 生成与复现
 
-版本号在本仓的 tag 上，词库与 librime 一起发。term-ime 用 submodule 锁定本仓的
-某个 commit 发版，组合关系因此固定在 term-ime 那次 tag 里。
+`dict/` 里的东西全是产物。引擎构建不生成它们 —— 生成需要 host Python 和一个
+现编译、现执行的 `opencc_dict`，Windows 上要装 Python、NDK 交叉编译会直接
+`Exec format error`，而 librime 运行时只需要数据本身。
 
-改词库：在这里改，随 librime 补丁一起发 tag，然后让 term-ime 更新 submodule 指针。
+生成工具在 `tools/`，全部显式调用，故意不接进 CMake：接进去哪怕做成非 `ALL`
+目标，也会把「配置引擎」和「生成词库」重新绑回同一张编译图。
+
+```sh
+make -C tools check      # 重新生成，并与本目录已提交内容逐字节比对
+make -C tools package    # 打成 term-ime-dict-<VERSION>.tar.gz
+```
+
+三条契约，写进 `tools/` 的脚本里，改脚本前先读：
+
+- **essay.txt 不裁剪**。437873 条全留：`luna_pinyin` 开了 `use_preset_vocabulary`，
+  词频与大部分词组只在这份表里（91.2% 不在主词库），删条目等于删候选。
+- **只做逐字转换**（`tools/t2s_char.json` 只挂 `TSCharacters.ocd2`）。词组表会把
+  词本身换掉（家俱 → 家具），异体表会把生僻码位折叠到常用字（㐀 → 丘）；词库
+  要的是一次字符级重编码，不是一次用词规范化。运行时那条 `t2s_full.json` 链是
+  给上屏文本用的，两件事不能混。
+- **乾(gān/qián)、薹(tái) 逐字保护**（`tools/protected_chars.txt`），去重按
+  **(词, 拼音)** 而非只按词 —— 一简对多繁，同词多读音必须各留一行，否则输入
+  另一读音打不出该字。
+
+`tools/sources.lock` 钉住三个输入坐标。`luna_pinyin` 的底本不是上游某个 release，
+而是本仓 `64eda4c7` 里那份繁体快照（上游此后加了读音权重、补了日文国字与注音
+索引，本仓又剪过 115 行），所以取底本要读 git 历史，浅克隆取不到。
+
+## 版本：两个坐标
+
+- `v…-rime-stack`：引擎 + 词库配套发布。term-ime 用 submodule 锁它的 commit，
+  组合关系固定在 term-ime 那次 tag 里。
+- `dict-<VERSION>`：纯词库重发，不动引擎。版本号读 `VERSION` 文件，tag 与它不符
+  时 workflow 直接失败。内容不变、只是数据修订时走这一条。
+
+`dict-*` 的最低可用 stack：
+
+| 词库 | 最低 librime | 为什么 |
+|---|---|---|
+| `dict-2026.10.09` | `v1.1.8-rime-stack` | 简繁数据闭包（`t2hk`/`t2tw` + `HK`/`TWVariants.ocd2`）与 `use_preset_vocabulary` 的词频依赖都从这次起 |
+
+改词库：在这里改，`make -C tools check` 过，随引擎一起发 stack tag；只动数据就发
+`dict-*`。term-ime 更新 submodule 指针。
