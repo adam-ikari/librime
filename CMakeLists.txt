@@ -40,6 +40,25 @@ endif(WIN32)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${PROJECT_SOURCE_DIR}")
 
+# dict/ is a published product, not a build input -- nothing here generates it.
+# The one thing the build can still check is self-consistency: librime resolves
+# an opencc_config under <shared_data_dir>/opencc/ and, if the file is missing,
+# drops the simplifier without failing the deployment. So every table a bundled
+# config references has to be committed next to it.
+file(GLOB rime_dict_opencc_configs ${PROJECT_SOURCE_DIR}/dict/opencc/*.json)
+foreach(rime_opencc_config ${rime_dict_opencc_configs})
+  file(READ ${rime_opencc_config} rime_opencc_json)
+  string(REGEX MATCHALL "\"file\"[ \t]*:[ \t]*\"[^\"]+\"" rime_opencc_refs ${rime_opencc_json})
+  foreach(rime_opencc_ref ${rime_opencc_refs})
+    string(REGEX REPLACE "\"file\"[ \t]*:[ \t]*\"([^\"]+)\"" "\\1" rime_opencc_name ${rime_opencc_ref})
+    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/dict/opencc/${rime_opencc_name}")
+      message(FATAL_ERROR
+        "dict/opencc/${rime_opencc_name} is referenced by ${rime_opencc_config} but is not committed "
+        "with it. The dictionary ships as data -- see dict/README.md.")
+    endif()
+  endforeach()
+endforeach()
+
 if (ENABLE_ASAN)
   set(asan_cflags "-fsanitize=address -fno-omit-frame-pointer")
   set(asan_lflags "-fsanitize=address -lasan")
