@@ -7,22 +7,6 @@ RIME: Rime Input Method Engine
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 Rime with your keystrokes.
-Monorepo
-===
-This repository is `librime-stl`, a fork of [rime/librime](https://github.com/rime/librime)
-with a monorepo layout: the input method engine and the dictionaries it ships with live
-in the same tree and share a single version coordinate (one tag).
-
-```
-src/, include/, plugins/   the librime fork (engine + term-ime patches vs upstream)
-dict/                      luna_pinyin.dict.yaml, essay.txt, opencc/ (dictionary + T/S data)
-```
-
-Both are products of this repository and are released together under the same tag, so
-there is no "newer dictionary with an older engine" combination to track. See
-[dict/README.md](dict/README.md) for the dictionary layout, per-file licensing
-(MIT + LGPL-3.0) and how to merge from upstream.
-
 
 > **This is `librime-stl`, a fork of [rime/librime](https://github.com/rime/librime).**
 > It powers [term-ime](https://github.com/adam-ikari/term-ime), a TTY input method,
@@ -44,7 +28,19 @@ Project home
 
 License
 ---
-[The 3-Clause BSD License](https://opensource.org/licenses/BSD-3-Clause)
+The engine is [rime/librime](https://github.com/rime/librime), Copyright the RIME
+Developers, distributed under the 3-Clause BSD License. This fork keeps the upstream
+`LICENSE` verbatim — the engine patches are an upstream-compatible derivative, not a
+relicense. Data under `dict/` is a separate matter and follows its own sources
+(LGPL-3.0 for `essay.txt` and `luna_pinyin.dict.yaml`; Apache-2.0 for the OpenCC-derived
+tables; MIT for this project's own tables) — see [dict/LICENSE](dict/LICENSE) and
+[THIRD-PARTY.md](THIRD-PARTY.md). This repository is therefore BSD-3 for the engine plus
+the retained terms of the bundled data, not a single uniform license.
+
+Full texts are vendored under [`licenses/`](licenses/) (LGPL-3.0, GPL-3.0,
+Apache-2.0). The `dict/` data may be bundled into another program; see
+[dict/LICENSE](dict/LICENSE) for the distribution obligations.
+
 
 Features
 ===
@@ -147,7 +143,8 @@ Related works
   - [plum](https://github.com/rime/plum): Rime configuration (recipe) installer
   - [combo-pinyin](https://github.com/rime/home/wiki/ComboPinyin): an innovative
     chord-typing practice to input Pinyin
-  - [rime-essay](https://github.com/rime/rime-essay): the preset vocabulary
+  - [rime-luna-pinyin](https://github.com/rime/rime-luna-pinyin): the luna_pinyin
+    dictionary (LGPL-3.0) that `dict/luna_pinyin.dict.yaml` derives from
   - [SCU](https://github.com/neolee/SCU): Squirrel Configuration Utilities
 
 Credits

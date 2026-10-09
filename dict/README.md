@@ -39,11 +39,15 @@ simplifier 退化为幂等护栏。
   对去重而非只按词去重，保留多读音独立行 —— 合并成单一读音会让输入另一读音时打不出
   该字。
 
-`LICENSE` 按文件分别标注授权，`dict/` 有三种：`luna_pinyin.dict.yaml` 与
-`opencc/t2s_full.json`、`opencc/variants*.txt` 是 MIT（Copyright (c) 2026
-adam-ikari，本项目原创）；`essay.txt` 派生自 rime/rime-essay，以 LGPL-3.0 授权；
-`opencc/` 里的 `t2s.json`/`t2hk.json`/`t2tw.json` 与 `*.ocd2` 派生自 BYVoid/OpenCC，
-以 Apache-2.0 授权。整个 `dict/` 不是单一授权 —— 不能整体当作 MIT。
+`LICENSE` 按文件分别标注授权，跟随各自上游：`luna_pinyin.dict.yaml` 派生自
+[rime/rime-luna-pinyin](https://github.com/rime/rime-luna-pinyin)，`essay.txt` 派生自
+[rime/rime-essay](https://github.com/rime/rime-essay)，两者均为 **LGPL-3.0**；
+`opencc/` 的 `t2s.json`/`t2hk.json`/`t2tw.json` 与 `*.ocd2` 来自
+[BYVoid/OpenCC](https://github.com/BYVoid/OpenCC)，为 **Apache-2.0**；而
+`opencc/t2s_full.json` 与 `variants*.txt` 是本项目原创转换表，**MIT**。本项目对这些
+数据只做生成性修改（转简体、去重、升级版本），派生作品的许可证跟随上游 —— 整个
+`dict/` 不是 MIT，也不是任何单一授权。完整条款与打包分发义务（可随其他程序分发，
+含 LGPL 的 notice/源码义务）见 [`LICENSE`](LICENSE) 与 [`../licenses/`](../licenses/)。
 
 ## 为什么并进来
 
