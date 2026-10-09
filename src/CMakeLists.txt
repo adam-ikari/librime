@@ -69,6 +69,12 @@ if(MINGW)
   set(rime_core_deps ${rime_core_deps} wsock32 ws2_32 bcrypt)
 endif()
 
+if(ANDROID)
+  # glog's Android backend writes through __android_log_write (liblog); the
+  # static glog leaves the symbol to the final link, so librime.so must carry it.
+  set(rime_core_deps ${rime_core_deps} log)
+endif()
+
 if(BUILD_SEPARATE_LIBS)
   set(rime_deps ${rime_core_deps})
 else()
