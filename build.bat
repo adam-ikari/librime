@@ -168,7 +168,9 @@ if %build_deps% == 1 (
   echo building opencc.
   pushd deps\opencc
   cmake . -B%build_dir% %deps_cmake_flags%^
-  -DBUILD_TESTING=OFF
+  -DBUILD_TESTING=OFF ^
+  -DOPENCC_BUILD_DATA=OFF ^
+  -DOPENCC_BUILD_TOOLS=OFF
   if errorlevel 1 goto error
   cmake --build %build_dir% --config %build_config% --target install
   if errorlevel 1 goto error

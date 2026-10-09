@@ -74,6 +74,8 @@ opencc:
 	-DBUILD_SHARED_LIBS:BOOL=OFF \
 	-DCMAKE_BUILD_TYPE:STRING="Release" \
 	-DCMAKE_INSTALL_PREFIX:PATH="$(prefix)" \
+	-DOPENCC_BUILD_DATA:BOOL=OFF \
+	-DOPENCC_BUILD_TOOLS:BOOL=OFF \
 	&& cmake --build $(build) --target install
 
 yaml-cpp:

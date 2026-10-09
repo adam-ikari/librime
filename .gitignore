@@ -8,6 +8,11 @@ lib/*
 bin/*
 share/*
 deps/*/*
+# deps/opencc is vendored (not a submodule), so its sources have to be trackable;
+# only its build tree stays ignored.
+!deps/opencc/
+!deps/opencc/**
+deps/opencc/build/
 plugins/*/
 env.bat
 node_modules/
