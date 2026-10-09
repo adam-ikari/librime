@@ -7,6 +7,22 @@ RIME: Rime Input Method Engine
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 Rime with your keystrokes.
+Monorepo
+===
+This repository is `librime-stl`, a fork of [rime/librime](https://github.com/rime/librime)
+with a monorepo layout: the input method engine and the dictionaries it ships with live
+in the same tree and share a single version coordinate (one tag).
+
+```
+src/, include/, plugins/   the librime fork (engine + term-ime patches vs upstream)
+dict/                      luna_pinyin.dict.yaml, essay.txt, opencc/ (dictionary + T/S data)
+```
+
+Both are products of this repository and are released together under the same tag, so
+there is no "newer dictionary with an older engine" combination to track. See
+[dict/README.md](dict/README.md) for the dictionary layout, per-file licensing
+(MIT + LGPL-3.0) and how to merge from upstream.
+
 
 > **This is `librime-stl`, a fork of [rime/librime](https://github.com/rime/librime).**
 > It powers [term-ime](https://github.com/adam-ikari/term-ime), a TTY input method,
