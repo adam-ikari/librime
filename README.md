@@ -20,8 +20,8 @@ dict/                      luna_pinyin.dict.yaml, essay.txt, opencc/ (dictionary
 
 Both are products of this repository and are released together under the same tag, so
 there is no "newer dictionary with an older engine" combination to track. See
-[dict/README.md](dict/README.md) for the dictionary layout, per-file licensing
-(MIT + LGPL-3.0) and how to merge from upstream.
+[dict/README.md](dict/README.md) for the dictionary layout, per-file data licensing
+and how to merge from upstream.
 
 
 Project home
@@ -30,7 +30,22 @@ Project home
 
 License
 ---
-[The 3-Clause BSD License](https://opensource.org/licenses/BSD-3-Clause)
+Project license: [MIT](LICENSE), Copyright (c) 2026 adam-ikari — covers this fork's
+own changes (the term-ime patches and the `dict/` build data).
+
+The engine is a fork of [rime/librime](https://github.com/rime/librime), which is
+copyright its RIME Developers and distributed under the 3-Clause BSD License; that
+upstream license and its copyright notices are retained for the derived source files,
+see [THIRD-PARTY.md](THIRD-PARTY.md). Data under `dict/` derives from upstream sources
+under their own licenses (LGPL-3.0 for `essay.txt` and `luna_pinyin.dict.yaml`,
+Apache-2.0 for `opencc/`) — see [dict/LICENSE](dict/LICENSE). This repository is
+therefore MIT for its own work plus retained third-party terms, not a single uniform
+license.
+
+Full texts are vendored under [`licenses/`](licenses/) (LGPL-3.0, GPL-3.0,
+Apache-2.0). The `dict/` data may be bundled into another program; see
+[dict/LICENSE](dict/LICENSE) for the distribution obligations.
+
 
 Features
 ===
@@ -132,7 +147,8 @@ Related works
   - [plum](https://github.com/rime/plum): Rime configuration (recipe) installer
   - [combo-pinyin](https://github.com/rime/home/wiki/ComboPinyin): an innovative
     chord-typing practice to input Pinyin
-  - [rime-essay](https://github.com/rime/rime-essay): the preset vocabulary
+  - [rime-luna-pinyin](https://github.com/rime/rime-luna-pinyin): the luna_pinyin
+    dictionary (LGPL-3.0) that `dict/luna_pinyin.dict.yaml` derives from
   - [SCU](https://github.com/neolee/SCU): Squirrel Configuration Utilities
 
 Credits

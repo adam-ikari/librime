@@ -29,9 +29,14 @@ simplifier 退化为幂等护栏。
   对去重而非只按词去重，保留多读音独立行 —— 合并成单一读音会让输入另一读音时打不出
   该字。
 
-`LICENSE` 按文件分别标注授权：`luna_pinyin.dict.yaml` 与 `opencc/` 是 MIT
-（Copyright (c) 2026 adam-ikari）；`essay.txt` 派生自 rime/rime-essay，以 LGPL-3.0
-授权。整个 `dict/` 不是单一授权 —— 不能整体当作 MIT。
+`LICENSE` 按文件分别标注授权，跟随各自上游：`luna_pinyin.dict.yaml` 派生自
+[rime/rime-luna-pinyin](https://github.com/rime/rime-luna-pinyin)，`essay.txt` 派生自
+[rime/rime-essay](https://github.com/rime/rime-essay)，两者均为 **LGPL-3.0**；
+`opencc/` 来自 [BYVoid/OpenCC](https://github.com/BYVoid/OpenCC) 的数据字典，为
+**Apache-2.0**。本项目对这些数据只做生成性修改（转简体、去重、升级版本），派生作品
+的许可证跟随上游 —— 整个 `dict/` 不是 MIT，也不是任何单一授权。完整条款与打包分发
+义务（可随其他程序分发，含 LGPL 的 notice/源码义务）见 [`LICENSE`](LICENSE) 与
+[`../licenses/`](../licenses/)。
 
 ## 为什么并进来
 
