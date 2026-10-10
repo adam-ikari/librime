@@ -53,7 +53,6 @@ set(rime_dict_deps
     ${LevelDb_LIBRARY}
     ${Marisa_LIBRARY})
 set(rime_gears_deps
-    ${ICONV_LIBRARIES}
     ${ICU_LIBRARIES}
     ${Opencc_LIBRARY})
 set(rime_levers_deps "")
@@ -177,8 +176,19 @@ else()
     ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
   install(TARGETS rime-static DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR})
 endif()
-if(DEFINED RIME_SETUP_EXTRA_MODULES)
-  set_property(SOURCE rime/setup.cc
-    PROPERTY COMPILE_DEFINITIONS
-    "RIME_EXTRA_MODULES=${RIME_SETUP_EXTRA_MODULES}")
-endif()
+# term-ime: upstream cbf363be passes RIME_EXTRA_MODULES (a Boost.PP sequence)
+# as a compile definition and expands it with Boost.Preprocessor in setup.cc /
+# rime_api.cc; this fork drops Boost entirely, so the identical expansions are
+# written into a generated header at configure time instead.
+set(RIME_EXTRA_MODULE_STR "")
+set(RIME_EXTRA_MODULE_DECLS "")
+set(RIME_EXTRA_MODULE_REFS "")
+foreach(mod ${rime_plugins_modules})
+  string(APPEND RIME_EXTRA_MODULE_STR ", \"${mod}\"")
+  string(APPEND RIME_EXTRA_MODULE_DECLS "extern void rime_require_module_${mod}();")
+  string(APPEND RIME_EXTRA_MODULE_REFS "rime_require_module_${mod}();")
+endforeach()
+configure_file(rime_extra_modules.h.in
+  ${CMAKE_CURRENT_BINARY_DIR}/include/rime_extra_modules.h @ONLY)
+target_include_directories(${rime_library} PRIVATE
+  ${CMAKE_CURRENT_BINARY_DIR}/include)

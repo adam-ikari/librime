@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.12)
 project(rime)
 set(CMAKE_CXX_STANDARD 17)
 
-set(rime_version 1.16.1)
+set(rime_version 1.17.0)
 set(rime_soversion 1)
 
 add_definitions(-DRIME_VERSION="${rime_version}")
@@ -208,6 +208,7 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
   set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} /DEBUG /OPT:REF /OPT:ICF")
   add_definitions("/wd4244 /wd4996")
+  add_compile_options("/Zc:__cplusplus")
 
   # large address aware
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LARGEADDRESSAWARE")
@@ -301,11 +302,10 @@ endif()
 add_subdirectory(plugins)
 message(STATUS "rime_plugins_libs: ${rime_plugins_deps}")
 message(STATUS "rime_plugins_modules: ${rime_plugins_modules}")
-set(list "")
-foreach(mod ${rime_plugins_modules})
-  set(list "${list},Q(${mod})")
-endforeach()
-set(RIME_SETUP_EXTRA_MODULES "${list}")
+# term-ime: upstream cbf363be turned rime_plugins_modules into a Boost.PP
+# sequence (RIME_SETUP_EXTRA_MODULES) that setup.cc / rime_api.cc expanded
+# with Boost.Preprocessor; this fork drops Boost, so src/CMakeLists.txt now
+# consumes rime_plugins_modules directly and generates rime_extra_modules.h.
 if(BUILD_SHARED_LIBS AND BUILD_SEPARATE_LIBS AND rime_plugins_objs)
   set(rime_plugins_library rime-plugins)
 endif()

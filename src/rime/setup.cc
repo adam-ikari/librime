@@ -18,12 +18,15 @@
 #include <rime/module.h>
 #include <rime/service.h>
 #include <rime/setup.h>
+// term-ime: upstream (cbf363be) expands RIME_EXTRA_MODULES — a Boost.PP
+// sequence — with Boost.Preprocessor here; this fork drops Boost entirely, so
+// CMake writes the identical string fragment into rime_extra_modules.h at
+// configure time instead.
+#include <rime_extra_modules.h>
 
 namespace rime {
 
-#define Q(x) #x
-RIME_DLL RIME_MODULE_LIST(kDefaultModules, "default" RIME_EXTRA_MODULES);
-#undef Q
+RIME_DLL RIME_MODULE_LIST(kDefaultModules, "default" RIME_EXTRA_MODULE_STR);
 RIME_DLL RIME_MODULE_LIST(kDeployerModules, "deployer");
 RIME_MODULE_LIST(kLegacyModules, "legacy");
 
@@ -95,10 +98,15 @@ RIME_DLL void SetupLogging(const char* app_name,
   }
 #else
   // glog >= 0.5 dropped google::IsGoogleLoggingInitialized() from its public
-  // API (and from its internal headers), so there is no version macro to branch
-  // on and no way to ask. InitGoogleLogging() is safe to call again, so call it
-  // and give up only the "already initialized" warning.
-  google::InitGoogleLogging(app_name);
+  // API, so there is no version macro to branch on and no way to ask.
+  // InitGoogleLogging() must NOT be called a second time — glog CHECK-fails
+  // with "You called InitGoogleLogging() twice!" — so track initialization
+  // here: the first call wins, later calls are no-ops.
+  static bool already_initialized = false;
+  if (!already_initialized) {
+    google::InitGoogleLogging(app_name);
+    already_initialized = true;
+  }
 #endif
 #endif  // RIME_ENABLE_LOGGING
 }

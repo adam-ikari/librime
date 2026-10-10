@@ -4,6 +4,11 @@
 //
 // 2011-07-03 GONG Chen <chen.sst@gmail.com>
 //
+//
+// term-ime: <cmath> added — std::isnan needs it with this libstdc++, upstream
+// (8bf987ab) only compiled by accident of transitive includes.
+//
+#include <cmath>
 #include <gtest/gtest.h>
 #include <rime/algo/syllabifier.h>
 #include <rime/dict/text_db.h>
@@ -88,4 +93,13 @@ TEST(RimeUserDbTest, Query) {
     EXPECT_FALSE(accessor->GetNextRecord(&key, &value));
   }
   db.Close();
+}
+
+TEST(RimeUserDbValueTest, Denormal) {
+  const string denormal_entry = "c=16 d=9.88131e-324 t=1449225";
+  UserDbValue v(denormal_entry);
+  EXPECT_EQ(16, v.commits);
+  EXPECT_EQ(1449225u, v.tick);
+  EXPECT_GE(v.dee, 0.0);
+  EXPECT_FALSE(std::isnan(v.dee));
 }

@@ -1,0 +1,9 @@
+list:
+  - abc: ABC
+  - abc: ZYX
+  - "Hello!"
+  - abc: 123
+nested:
+  bool: true
+  greetings: "Hello!"
+  int: 1000000
