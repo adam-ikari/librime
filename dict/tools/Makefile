@@ -55,7 +55,7 @@ ocd2: $(OUT)/opencc
 $(OUT)/essay.txt: upgrade_essay.py protected_chars.txt t2s_char.json sources.lock | $(OUT) toolchain
 	$(PY) upgrade_essay.py --out $@
 
-$(OUT)/luna_pinyin.dict.yaml: convert_dict.py protected_chars.txt t2s_char.json sources.lock | $(OUT) toolchain
+$(OUT)/luna_pinyin.dict.yaml: convert_dict.py pinyin_fixes.txt protected_chars.txt t2s_char.json sources.lock | $(OUT) toolchain
 	$(PY) convert_dict.py --out $@
 
 $(OUT)/opencc: rebuild_ocd2.sh | $(OUT) toolchain

@@ -8,7 +8,7 @@
 
 | 文件 | 说明 |
 |------|------|
-| `luna_pinyin.dict.yaml` | 词库本体。67164 条 (词, 拼音) 映射（2026-10 全部转简体并去重，原 70655 条繁体）。同词多读音保留为多行。 |
+| `luna_pinyin.dict.yaml` | 词库本体。67176 条 (词, 拼音) 映射（2026-10 全部转简体并去重，原 70655 条繁体；再经 `tools/pinyin_fixes.txt` 订正错音、补单字缺读音）。同词多读音保留为多行。 |
 | `essay.txt` | 词频表，437873 条带权重词条（2026-10 升级到 rime-essay 官方最新版 442688 条，再全部转简体去重）。词库开了 `use_preset_vocabulary`，靠它加载词频 —— 缺了它候选会退化成按 Unicode 排序的单字（生僻字排在常用字前面），词组也出不来。 |
 | `opencc/` | 简繁与字形转换数据，供 schema 的 simplifier 用：`t2s_full.json`（简体输出主路径）、`t2hk.json` / `t2tw.json`（港/臺字形）。 |
 
@@ -82,7 +82,7 @@ make -C tools check      # 重新生成，并与本目录已提交内容逐字�
 make -C tools package    # 打成 term-ime-dict-<VERSION>.tar.gz
 ```
 
-三条契约，写进 `tools/` 的脚本里，改脚本前先读：
+四条契约，写进 `tools/` 的脚本里，改脚本前先读：
 
 - **essay.txt 不裁剪**。437873 条全留：`luna_pinyin` 开了 `use_preset_vocabulary`，
   词频与大部分词组只在这份表里（91.2% 不在主词库），删条目等于删候选。
@@ -93,6 +93,11 @@ make -C tools package    # 打成 term-ime-dict-<VERSION>.tar.gz
 - **乾(gān/qián)、薹(tái) 逐字保护**（`tools/protected_chars.txt`），去重按
   **(词, 拼音)** 而非只按词 —— 一简对多繁，同词多读音必须各留一行，否则输入
   另一读音打不出该字。
+- **错音只改 `tools/pinyin_fixes.txt`，不改产物**。上游底本是钉死的 git 对象，
+  改不了源头；产物里发现的错音（蚌埠市 bang fu shi）、单字缺读音（老挝 wo）
+  一律写进这张表，由 `convert_dict.py` 每次生成时套上，`make check` 仍逐字节
+  复现。手改 `dict/luna_pinyin.dict.yaml` 等于放弃复现门。表里三个指令：
+  `fix` 整词替换读音、`del` 删一条错读音、`add` 给单字补读音。
 
 `tools/sources.lock` 钉住三个输入坐标。`luna_pinyin` 的底本不是上游某个 release，
 而是本仓 `64eda4c7` 里那份繁体快照（上游此后加了读音权重、补了日文国字与注音
@@ -110,6 +115,7 @@ make -C tools package    # 打成 term-ime-dict-<VERSION>.tar.gz
 | 词库 | 最低 librime | 为什么 |
 |---|---|---|
 | `dict-2026.10.09` | `v1.1.8-rime-stack` | 简繁数据闭包（`t2hk`/`t2tw` + `HK`/`TWVariants.ocd2`）与 `use_preset_vocabulary` 的词频依赖都从这次起 |
+| `dict-2026.10.10` | `v1.1.8-rime-stack` | 纯数据修订：`luna_pinyin.dict.yaml` 错音订正与单字补读音（`tools/pinyin_fixes.txt`），无新引擎依赖 |
 
 改词库：在这里改，`make -C tools check` 过，随引擎一起发 stack tag；只动数据就发
 `dict-*`。term-ime 更新 submodule 指针。

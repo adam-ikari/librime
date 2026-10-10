@@ -1,0 +1,178 @@
+# 简体拼音订正表。上游底本（繁体快照）逐字转简体后残留的错音，以及
+# 简体词条需要而单字条目缺的读音。生成的 luna_pinyin.dict.yaml 在去重、
+# 排序之前先过这张表；改动本文件必须重跑 make check。
+#
+# 制表符分隔三列：指令、词/字、音节（音节之间空格分隔）。一行一条指令，
+# 同一个词可以出现多行。# 开头是注释。
+#
+#   fix  该词在生成结果里的全部读音替换为指定读音。用于错音：同词
+#        只应有一个读音，底本给错了整个换掉。
+#   del  从该词的读音集合里删掉指定的一条。用于同词并存对错两种读音，
+#        删错保对（整词替换会把对的也弄丢）。
+#   add  给已有词条补一个读音，不动该词已有的其他读音。用于单字缺
+#        读音：词组读音（道行 heng）对而单字条目里没有这一读。
+#
+# 收进来的每条都核对过《现代汉语词典》/《汉语大字典》：
+#   - 错音一律指向上游繁体底本的音节串错误，不是简繁转换引入的
+#    （转换只逐字换字形，不动音节）。
+#   - add 的多是文白异读、方言口语或古语词，只补读，不据此改词形
+#    （词形由上游底本决定）。
+
+# —— 错音：整词替换 ———————————————————————————————————
+# 蚌埠 Bèngbù（埠 bù，底本误作 fu）
+fix	蚌埠市	bang bu shi
+# 港埠 gǎngbù（同上）
+fix	港埠	gang bu
+# 国有财产 guóyǒu cáichǎn（产 chǎn，底本误作 can）
+fix	国有财产	guo you cai chan
+# 家蚕 jiācán（蚕 cán，底本误作 chan）
+fix	家蚕	jia can
+# 禁制令 jìnzhìlìng（令 lìng，底本误作 lin）
+fix	禁制令	jin zhi ling
+# 跨 kuà（底本误作 ka）
+fix	跨媒体合作	kua mei ti he zuo
+# 肛瘘 gānglòu（瘘 lòu，底本误作 lv）
+fix	肛瘘	gang lou
+# 鸥波 ōubō（鸥 ōu，底本误作 o；鸥波萍迹，鸥鸟浮波之意）
+fix	鸥波	ou bo
+# 敬 jìng
+fix	潘金莲给武松敬酒	pan jin lian gei wu song jing jiu
+# 羊须疮 yángxúchuāng（疮 chuāng）
+fix	羊须疮	yang xu chuang
+# 罗夏克墨渍测验（Rorschach）：渍 zì
+fix	罗夏克墨渍测验	luo xia ke mo zi ce yan
+# 孩 hái
+fix	河里孩儿岸上娘	he li hai er an shang niang
+# 甚么 shénme（么 me，底本误作 men）
+fix	葫芦里卖的甚么药	hu lu li mai de shen me yao
+# 债 zhài
+fix	债多了不愁	zhai duo le bu chou
+# 冰蘖 bīngniè（蘖 niè）
+fix	冰蘖	bing nie
+# 刈蓍遗簪：簪 zān
+fix	刈蓍遗簪	yi shi yi zan
+# 高速 gāosù（速 sù）
+fix	中山高速公路	zhong shan gao su gong lu
+# 佛性 fóxìng（佛 fó）
+fix	众生皆有佛性	zhong sheng jie you fo xing
+# 偪阳 Bīyáng（偪 bī，先秦国名）
+fix	偪阳	bi yang
+# 摆褶子 bǎizhězi（褶 zhě）
+fix	大摆褶子	da bai zhe zi
+# 火炕 huǒkàng（炕 kàng）
+fix	出火炕	chu huo kang
+
+# —— 同词并存对错读音：删错保对 ————————————————————————
+# 甚 shén/shèn，无 she 一读；保留另一条 shen me
+del	甚么	she me
+# 褶 zhě（褶子）；xue 无此读。另两条 xi zi（戏服褶子）、zhe zi 保留
+del	褶子	xue zi
+# 哪吒 Nézhā（大陆规范读音）；nuó zhā 是旧读，简体方案不收
+del	哪咤	nuo zha
+
+# —— 单字缺读音：补读 ——————————————————————————————————
+# 道行 dàoheng、行行 hénghéng
+add	行	heng
+# 老挝 Lǎowō（挝 wō）
+add	挝	wo
+# 倘佯 chángyáng（同"徜徉"）
+add	倘	chang
+# 唼喋 shàzhá（喋 zhá）
+add	喋	zha
+# 趵趵 bōbō（趵 bō，今多用于趵突泉 bàotǔquán）
+add	趵	bo
+# 摘奸发伏 tījiānfāfú（摘 tì，同"擿"）
+add	摘	ti
+# 呿唫 qùyín（唫 yín，古同"吟"）
+add	唫	yin
+# 碌碡 liùzhou（碌 liù）
+add	碌	liu
+
+# —— 第二批：剩余 composability 违例的清理 ———————————————————
+
+# 安闲自在 ānxiánzìzài（成语；底本条文本作「安静自在」，读音是安闲的）
+del	安静自在	an xian zi zai
+add	安闲自在	an xian zi zai
+# 心焦如焚 xīnjiāorúfén（成语；底本条文本作「心焦如火」）
+del	心焦如火	xin jiao ru fen
+add	心焦如焚	xin jiao ru fen
+# 灵椿 língchūn（底条文「灵桩」无此词，读音是灵椿的）
+del	灵桩	ling chun
+add	灵椿	ling chun
+
+# 肠肥脑满 chángféi-nǎomǎn（成语；底本把 脑/满 的读音对调了）
+fix	肠肥脑满	chang fei nao man
+# 距 jù（底本误作 che）
+fix	行车距离	xing che ju li
+fix	攀车拒轮	pan che ju lun
+# 祭城 Zhàichéng（河南地名；祭 zhài，底本误作 zha）
+fix	祭城	zhai cheng
+# 逻辑闸 luójízhá（闸 zhá，底本误作 jia）
+fix	逻辑闸	luo ji zha
+# 兽 shòu
+fix	经济怪兽	jing ji guai shou
+# 目击道存 mùjī-dàocún（存 cún）
+fix	目击道存	mu ji dao cun
+# 阿毗昙 āpítán（Abhidharma 旧译；昙 tán）
+fix	阿毗昙	a pi tan
+# 蜗 wō、蛭 zhì（底本误作 gua/die）
+fix	蜗居蚁蛭	wo ju yi zhi
+# 荜露蓝蒌 bìlùlánlóu（蒌 lóu，同"蓝缕"）
+fix	荜露蓝蒌	bi lu lan lou
+# 绸帷 chóuwéi（绸 chóu）
+fix	绸帷	chou wei
+# 忠言奇谋 zhōngyán-qímóu（谋 móu）
+fix	忠言奇谋	zhong yan qi mou
+# 插火坑（坑 kēng，火坑 huǒkēng；底本误作 kang）
+fix	插火坑	cha huo keng
+# 斫鲙 zhuókuài（鲙 kuài，同"脍"）
+fix	斫鲙	zhuo kuai
+# 楅衡 bīhéng（楅 bī，古牛具）
+fix	楅衡	bi heng
+# 沙鸡 shājī（沙 shā）
+fix	沙鸡	sha ji
+# 焜 kǔn
+fix	烧火焜	shao huo kun
+# 猵狙 biānjū（猵 biān，底本误作 pian）
+fix	猵狙	bian ju
+# 猼且 bójū（猼 bó）
+fix	猼且	bo ju
+# 膍胵 píchì（胵 zhì，鸟胗）
+fix	膍胵	pi zhi
+# 萯阳 Fùyáng（萯 fù，古地名）
+fix	萯阳	fu yang
+# 蔽席 bìxí（蔽 bì）
+fix	蔽席	bi xi
+# 骲箭 bàojiàn、骲头（骲 bào，底本误作 bo）
+fix	骲箭	bao jian
+fix	骲头	bao tou
+# 睒䁑 shǎnyáng（䁑 yáng）
+fix	睒䁑	shan yang
+# 謈怨 bóyuàn（謈 bó）
+fix	謈怨	bo yuan
+# 赐酺 cìpú（酺 pú，君臣宴饮；底本两条 ci fu/si fu 皆误）
+fix	赐酺	ci pu
+
+# —— 单字缺读音（第二批）————————————————————————————
+# 榜人 bèngrén、榜笞/榜掠（榜 bèng，捶击；另有 péng 一读已在库）
+add	榜	beng
+# 平章 piánzhāng（平 pián，辨治）
+add	平	pian
+# 舚唇咂嘴 tiǎn-chún-zā-zuǐ（舚 tiǎn，舔）
+add	舚	tian
+# 乣军 diūjūn（辽代军名；乣 diū）
+add	乣	diu
+# 弸中彪外 péng-zhōng-biāo-wài、弸弓（弸 péng，张弓）
+add	弸	peng
+# 摵摵 shèshè（摵 shè，落叶声）
+add	摵	she
+# 踶跂 zhìqí（踶 zhì，蹴）
+add	踶	zhi
+# 髿髿 suōsuō（髿 suō，发长者）
+add	髿	suo
+# 椆苕 diàotiáo（椆 diào）
+add	椆	diao
+# 毁舟为杕 huǐzhōu-wéiduò（杕 duò，树桩）
+add	杕	duo
+# 舞勺 wǔzhuó（勺 zhuó，古礼乐舞）
+add	勺	zhuo

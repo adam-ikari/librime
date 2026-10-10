@@ -7355,7 +7355,7 @@ use_preset_vocabulary: true
 中央银行	zhong yang yin hang
 中子弹	zhong zi dan
 中宿	zhong su
-中山高速公路	zhong shan gao shu gong lu
+中山高速公路	zhong shan gao su gong lu
 中幡会	zhong fan hui
 中弹	zhong dan
 中心对称	zhong xin dui chen
@@ -7769,6 +7769,7 @@ use_preset_vocabulary: true
 乢	gai
 乢	ge
 乢	he
+乣	diu
 乣	jiu
 乣军	diu jun
 乤	xia
@@ -8634,7 +8635,7 @@ use_preset_vocabulary: true
 众口难调	zhong kou nan tiao
 众所熟知	zhong suo shu zhi
 众毛攒裘	zhong mao cuan qiu
-众生皆有佛性	zhong sheng jie you fou xing
+众生皆有佛性	zhong sheng jie you fo xing
 众目睽睽	zhong mu kui kui
 众矢之的	zhong shi zhi di
 优	you
@@ -9393,6 +9394,7 @@ use_preset_vocabulary: true
 倔强	jue jiang
 倕	chui
 倗	peng
+倘	chang
 倘	tang
 倘佯	chang yang
 候	hou
@@ -9453,7 +9455,7 @@ use_preset_vocabulary: true
 倹	jian
 债	zhai
 债务重组	zhai wu chong zu
-债多了不愁	zai duo le bu chou
+债多了不愁	zhai duo le bu chou
 倻	ye
 值	zhi
 值宿	zhi su
@@ -9566,7 +9568,7 @@ use_preset_vocabulary: true
 偩	fu
 偪	bi
 偪仂	bi le
-偪阳	fu yang
+偪阳	bi yang
 偫	zhi
 偬	zong
 偭	mian
@@ -10340,7 +10342,7 @@ use_preset_vocabulary: true
 冰碛湖	bing qi hu
 冰窨	bing yin
 冰藏	bing cang
-冰蘖	bing bo
+冰蘖	bing nie
 冰雹	bing bao
 冱	hu
 冲	chong
@@ -10548,7 +10550,7 @@ use_preset_vocabulary: true
 出没	chu mo
 出没不定	chu mo bu ding
 出没无常	chu mo wu chang
-出火炕	chu huo keng
+出火炕	chu huo kang
 出版发行	chu ban fa xing
 出生地	chu sheng di
 出生率	chu sheng lv
@@ -10640,7 +10642,7 @@ use_preset_vocabulary: true
 切角	qie jiao
 切骨之仇	qie gu zhi chou
 刈	yi
-刈蓍遗簪	yi shi yi zen
+刈蓍遗簪	yi shi yi zan
 刉	ji
 刉	qi
 刊	kan
@@ -11225,6 +11227,7 @@ use_preset_vocabulary: true
 勹	bao
 勺	shao
 勺	shuo
+勺	zhuo
 勺子	shao zi
 勼	jiu
 勽	bao
@@ -13098,7 +13101,6 @@ use_preset_vocabulary: true
 哪个地方	na ge di fang
 哪些地方	na xie di fang
 哪咤	ne zha
-哪咤	nuo zha
 哫	zu
 哬	he
 哭	kao
@@ -13223,6 +13225,7 @@ use_preset_vocabulary: true
 唩	wo
 唪	feng
 唫	jin
+唫	yin
 唫嗻	yin zhe
 唬	hu
 唭	qi
@@ -13448,6 +13451,7 @@ use_preset_vocabulary: true
 喉长气短	hou chang qi duan
 喊	han
 喋	die
+喋	zha
 喋喋便便	die die pian pian
 喋嗫	die nie
 喌	zhou
@@ -14093,7 +14097,7 @@ use_preset_vocabulary: true
 国富调查	guo fu diao cha
 国帑	guo tang
 国有土地	guo you tu di
-国有财产	guo you cai can
+国有财产	guo you cai chan
 国有银行	guo you yin hang
 国朝	guo chao
 国民乐派音乐	guo min yue pai yin yue
@@ -15475,7 +15479,7 @@ use_preset_vocabulary: true
 大换血	da huan xue
 大排行	da pai hang
 大排长龙	da pai chang long
-大摆褶子	da bai xue zi
+大摆褶子	da bai zhe zi
 大故	da gu
 大故	dai gu
 大晟府	da sheng fu
@@ -16930,9 +16934,9 @@ use_preset_vocabulary: true
 安贫乐道	an pin le dao
 安身之地	an shen zhi di
 安身乐业	an shen le ye
+安闲自在	an xian zi zai
 安阇那	an she na
 安陆	an lu
-安静自在	an xian zi zai
 宊	jia
 宊	tu
 宋	song
@@ -17076,7 +17080,7 @@ use_preset_vocabulary: true
 家给人足	jia ji ren zu
 家给户赡	jia ji hu shan
 家给民足	jia ji min zu
-家蚕	jia chan
+家蚕	jia can
 家行	jia xing
 家长	jia zhang
 家长制	jia zhang zhi
@@ -18486,6 +18490,7 @@ use_preset_vocabulary: true
 干将莫邪	gan jiang mo ye
 干得了	gan de liao
 干戈载戢	gan ge zai ji
+平	pian
 平	ping
 平乐	ping le
 平地	ping di
@@ -18951,6 +18956,7 @@ use_preset_vocabulary: true
 弶	jiang
 弶	lve
 弸	beng
+弸	peng
 弸中彪外	peng zhong biao wai
 弸弓	peng gong
 弹	dan
@@ -19394,7 +19400,7 @@ use_preset_vocabulary: true
 心旌摇曳	xin jing yao yi
 心潮澎湃	xin chao peng pai
 心灵音乐	xin ling yin yue
-心焦如火	xin jiao ru fen
+心焦如焚	xin jiao ru fen
 心率	xin lv
 心病还得心药医	xin bing hai dei xin yao yi
 心痒难挝	xin yang nan zhua
@@ -19466,7 +19472,7 @@ use_preset_vocabulary: true
 忠	zhong
 忠告	zhong gao
 忠告	zhong gu
-忠言奇谋	zhong yan qi mo
+忠言奇谋	zhong yan qi mou
 忡	chong
 忢	wu
 忣	ji
@@ -21712,6 +21718,7 @@ use_preset_vocabulary: true
 挛挛	lvan lvan
 挜	ya
 挝	guo
+挝	wo
 挝	zhua
 挝人	zhua ren
 挝妇翁	zhua fu weng
@@ -22213,7 +22220,7 @@ use_preset_vocabulary: true
 插	cha
 插扛子	cha gang zi
 插架万轴	cha jia wan zhou
-插火坑	cha huo kang
+插火坑	cha huo keng
 插科使砌	cha ke shi qie
 插科打诨	cha ke da hun
 插金披绮	cha jin pi qi
@@ -22536,6 +22543,7 @@ use_preset_vocabulary: true
 摖	qi
 摗	song
 摗	sou
+摘	ti
 摘	zhai
 摘	zhe
 摘伏发隐	ti fu fa yin
@@ -22593,6 +22601,7 @@ use_preset_vocabulary: true
 摲	shan
 摴	shu
 摵	se
+摵	she
 摵	suo
 摵摵	she she
 摷	chao
@@ -22851,8 +22860,7 @@ use_preset_vocabulary: true
 攀车卧辙	pan che wo zhe
 攀车卧辙	pan ju wo che
 攀车卧辙	pan ju wo zhe
-攀车拒轮	pan che che lun
-攀车拒轮	pan ju ju lun
+攀车拒轮	pan che ju lun
 攀辕卧辙	pan yuan wo che
 攀辕卧辙	pan yuan wo zhe
 攁	yang
@@ -23253,7 +23261,7 @@ use_preset_vocabulary: true
 斫地	zhuo di
 斫畬	zhuo she
 斫蜋	zhuo lang
-斫鲙	zhuo kui
+斫鲙	zhuo kuai
 断	duan
 断弦	duan xian
 断烂朝报	duan lan chao bao
@@ -24620,6 +24628,7 @@ use_preset_vocabulary: true
 杓俫	shao lai
 杔	tuo
 杕	di
+杕	duo
 杖	zhang
 杖期	zhang ji
 杖期夫	zhang ji fu
@@ -25524,6 +25533,7 @@ use_preset_vocabulary: true
 椅	yi
 椅披	yi pi
 椆	chou
+椆	diao
 椆苕	diao tiao
 椇	ju
 椈	ju
@@ -25616,7 +25626,7 @@ use_preset_vocabulary: true
 楄	bian
 楄	pian
 楅	bi
-楅衡	fu heng
+楅衡	bi heng
 楆	yao
 楈	xu
 楉	ruo
@@ -25739,6 +25749,7 @@ use_preset_vocabulary: true
 榚	yao
 榛	zhen
 榜	bang
+榜	beng
 榜	peng
 榜上无名	bang shang wu ming
 榜书	bang shu
@@ -27104,7 +27115,7 @@ use_preset_vocabulary: true
 沙嗲	sha die
 沙噀	sha xun
 沙地	sha di
-沙鸡	cha ji
+沙鸡	sha ji
 沚	zhi
 沛	pei
 沜	pan
@@ -27264,7 +27275,7 @@ use_preset_vocabulary: true
 河清难俟	he qing nan si
 河落海乾	he lao hai gan
 河蚌	he bang
-河里孩儿岸上娘	he li ha er an shang niang
+河里孩儿岸上娘	he li hai er an shang niang
 河隄	he ti
 沴	li
 沵	li
@@ -28258,7 +28269,7 @@ use_preset_vocabulary: true
 渮	ge
 渮	he
 港	gang
-港埠	gang fu
+港埠	gang bu
 港行	gang hang
 港都	gang du
 渰	yan
@@ -28755,7 +28766,7 @@ use_preset_vocabulary: true
 潘	pan
 潘江陆海	pan jiang lu hai
 潘玮柏	pan wei bo
-潘金莲给武松敬酒	pan jin lian gei wu song jin jiu
+潘金莲给武松敬酒	pan jin lian gei wu song jing jiu
 潘陆江海	pan lu jiang hai
 潜	qian
 潜水炸弹	qian shui zha dan
@@ -29129,7 +29140,7 @@ use_preset_vocabulary: true
 灵	ling
 灵头幡	ling tou fan
 灵景	ling ying
-灵桩	ling chun
+灵椿	ling chun
 灵液	ling ye
 灵长目	ling zhang mu
 灵长类	ling zhang lei
@@ -29369,7 +29380,7 @@ use_preset_vocabulary: true
 烧	shao
 烧地眠	shao di mian
 烧夷弹	shao yi dan
-烧火焜	shao huo gun
+烧火焜	shao huo kun
 烨	ye
 烩	hui
 烫	tang
@@ -30436,7 +30447,7 @@ use_preset_vocabulary: true
 猴	hou
 猴子似的	hou zi si de
 猵	bian
-猵狙	pian ju
+猵狙	bian ju
 猵獭	bian ta
 猷	qiu
 猷	you
@@ -30444,7 +30455,7 @@ use_preset_vocabulary: true
 猹	cha
 猺	yao
 猼	bo
-猼且	pao ju
+猼且	bo ju
 猽	ming
 猾	hua
 猾伯	hua bo
@@ -31198,7 +31209,6 @@ use_preset_vocabulary: true
 甘𫉄	gan shu
 甙	dai
 甚	shen
-甚么	she me
 甚么	shen me
 甚嚣尘上	shen xiao chen shang
 甚底	shen de
@@ -32255,7 +32265,7 @@ use_preset_vocabulary: true
 目不给视	mu bu ji shi
 目似明星	mu si ming xing
 目似点漆	mu si dian qi
-目击道存	mu ji dao chun
+目击道存	mu ji dao cun
 目地	mu de
 目披手抄	mu pi shou chao
 目无尊长	mu wu zun zhang
@@ -32581,7 +32591,7 @@ use_preset_vocabulary: true
 睑	jian
 睑	lian
 睒	shan
-睒䁑	shan shi
+睒䁑	shan yang
 睓	tian
 睔	gun
 睔	hun
@@ -33135,6 +33145,7 @@ use_preset_vocabulary: true
 碊	qian
 碊	zhan
 碋	he
+碌	liu
 碌	lu
 碍	ai
 碎	cui
@@ -33488,7 +33499,7 @@ use_preset_vocabulary: true
 祬	zhi
 祭	ji
 祭	zhai
-祭城	zha cheng
+祭城	zhai cheng
 祭遵布被	zhai zun bu bei
 祮	gao
 祯	zhen
@@ -33541,7 +33552,7 @@ use_preset_vocabulary: true
 禀赋	bing fu
 禀陈	bing chen
 禁	jin
-禁制令	jin zhi lin
+禁制令	jin zhi ling
 禁地	jin di
 禁掖	jin ye
 禁脔	jin luan
@@ -35472,7 +35483,7 @@ use_preset_vocabulary: true
 经幢	jing chuang
 经济地理学	jing ji di li xue
 经济增长	jing ji zeng zhang
-经济怪兽	jing ji guai chou
+经济怪兽	jing ji guai shou
 经济成长	jing ji cheng zhang
 经济成长率	jing ji cheng zhang lv
 经济运行	jing ji yun xing
@@ -35598,7 +35609,7 @@ use_preset_vocabulary: true
 绷扒	beng ba
 绷扒吊拷	beng ba diao kao
 绸	chou
-绸帷	zi wei
+绸帷	chou wei
 绸缪	chou mou
 绹	tao
 绺	liu
@@ -35857,7 +35868,7 @@ use_preset_vocabulary: true
 罗刹女	luo cha nv
 罗塞提	luo sai ti
 罗塞达石碑	luo sai da shi bei
-罗夏克墨渍测验	luo xia ke mo ze ce yan
+罗夏克墨渍测验	luo xia ke mo zi ce yan
 罗帔	luo pei
 罗聘	luo pin
 罘	fou
@@ -35964,7 +35975,7 @@ use_preset_vocabulary: true
 羊角哀	yang jiao ai
 羊角风	yang jiao feng
 羊陆之交	yang lu zhi jiao
-羊须疮	yang xu cang
+羊须疮	yang xu chuang
 羌	qiang
 羍	nie
 羍	ta
@@ -36541,7 +36552,7 @@ use_preset_vocabulary: true
 肙	yuan
 肚	du
 肛	gang
-肛瘘	gang lv
+肛瘘	gang lou
 肜	rong
 肝	gan
 肝火盛	gan huo sheng
@@ -36553,7 +36564,7 @@ use_preset_vocabulary: true
 肠	chang
 肠液	chang ye
 肠粘连	chang nian lian
-肠肥脑满	chang fei man nao
+肠肥脑满	chang fei nao man
 肠阻塞	chang zu se
 股	gu
 股癣	gu xian
@@ -37053,7 +37064,7 @@ use_preset_vocabulary: true
 膋	liao
 膌	ji
 膍	pi
-膍胵	pi chi
+膍胵	pi zhi
 膎	xie
 膏	gao
 膏肓	gao huang
@@ -37318,6 +37329,7 @@ use_preset_vocabulary: true
 舗	pu
 舙	hua
 舚	tan
+舚	tian
 舚唇咂嘴	tian chun za zui
 舚破	tian po
 舚舕	tian tan
@@ -37974,7 +37986,7 @@ use_preset_vocabulary: true
 荚	jia
 荛	rao
 荜	bi
-荜露蓝蒌	bi lu lan lv
+荜露蓝蒌	bi lu lan lou
 荝	ze
 荞	qiao
 荟	hui
@@ -38348,7 +38360,7 @@ use_preset_vocabulary: true
 萭	yu
 萮	yu
 萯	fu
-萯阳	bei yang
+萯阳	fu yang
 萰	lian
 萱	xuan
 萲	xuan
@@ -38487,7 +38499,7 @@ use_preset_vocabulary: true
 葩	pa
 葪	ji
 葫	hu
-葫芦里卖的甚么药	hu lu li mai de shen men yao
+葫芦里卖的甚么药	hu lu li mai de shen me yao
 葬	zang
 葬身之地	zang shen zhi di
 葭	jia
@@ -38792,7 +38804,7 @@ use_preset_vocabulary: true
 蔼	ai
 蔽	bi
 蔽塞	bi se
-蔽席	fu xi
+蔽席	bi xi
 蔽聪塞明	bi cong se ming
 蔽芾	bi fei
 蔾	li
@@ -39424,7 +39436,7 @@ use_preset_vocabulary: true
 蚌	bang
 蚌	beng
 蚌埠	beng bu
-蚌埠市	bang fu shi
+蚌埠市	bang bu shi
 蚌壳	bang ke
 蚌珠	bang zhu
 蚍	bi
@@ -39674,7 +39686,6 @@ use_preset_vocabulary: true
 蜗	gua
 蜗	guo
 蜗	wo
-蜗居蚁蛭	gua ju yi die
 蜗居蚁蛭	wo ju yi zhi
 蜗行	gua xing
 蜗行	wo xing
@@ -40122,6 +40133,7 @@ use_preset_vocabulary: true
 衉	ke
 衋	xi
 行	hang
+行	heng
 行	xing
 行万里路	xing wan li lu
 行三坐五	xing san zuo wu
@@ -40451,7 +40463,6 @@ use_preset_vocabulary: true
 行踪飘忽	xing zong piao hu
 行车	xing che
 行车执照	xing che zhi zhao
-行车距离	xing che che li
 行车距离	xing che ju li
 行车速率	xing che su lv
 行辈	hang bei
@@ -40978,7 +40989,6 @@ use_preset_vocabulary: true
 褶	xi
 褶	zhe
 褶子	xi zi
-褶子	xue zi
 褶子	zhe zi
 褷	shi
 褷	xi
@@ -41601,7 +41611,7 @@ use_preset_vocabulary: true
 謇谔自负	jian e zi fu
 謈	bao
 謈	bo
-謈怨	po yuan
+謈怨	bo yuan
 謋	huo
 謋	jie
 謋然	huo ran
@@ -42822,8 +42832,7 @@ use_preset_vocabulary: true
 赐紫	ci zi
 赐紫	si zi
 赐给	ci gei
-赐酺	ci fu
-赐酺	si fu
+赐酺	ci pu
 赐顾	ci gu
 赐顾	si gu
 赑	bi
@@ -43045,6 +43054,7 @@ use_preset_vocabulary: true
 足癣	zu xian
 趴	pa
 趵	bao
+趵	bo
 趵趵	bo bo
 趶	ku
 趶	yu
@@ -43191,7 +43201,7 @@ use_preset_vocabulary: true
 跧	quan
 跨	kua
 跨地区	kua di qu
-跨媒体合作	ka mei ti he zuo
+跨媒体合作	kua mei ti he zuo
 跨行	kua hang
 跩	shi
 跩	zhuai
@@ -43359,6 +43369,7 @@ use_preset_vocabulary: true
 踵	zhong
 踵决肘见	zhong jue zhou xian
 踶	di
+踶	zhi
 踶跂	zhi qi
 踷	zha
 踸	chen
@@ -44404,7 +44415,7 @@ use_preset_vocabulary: true
 逺	yuan
 逻	luo
 逻辑重音	luo ji zhong yin
-逻辑闸	luo ji jia
+逻辑闸	luo ji zha
 逻逤檀	luo sha tan
 逻骑	luo ji
 逼	bi
@@ -47135,7 +47146,7 @@ use_preset_vocabulary: true
 阿拉伯胶树	a la bo jiao shu
 阿拉伯语	a la bo yu
 阿是穴	e shi xue
-阿毗昙	a pi tian
+阿毗昙	a pi tan
 阿毗达磨	a pi da mo
 阿甘正传	a gan zheng zhuan
 阿私	e si
@@ -49050,8 +49061,8 @@ use_preset_vocabulary: true
 骱	jie
 骱	xie
 骲	bao
-骲头	bo tou
-骲箭	bo jian
+骲头	bao tou
+骲箭	bao jian
 骳	bi
 骴	ci
 骵	ti
@@ -49192,6 +49203,7 @@ use_preset_vocabulary: true
 髽	zhua
 髾	shao
 髿	sha
+髿	suo
 髿髿	suo suo
 鬀	ti
 鬁	li
@@ -49901,7 +49913,7 @@ use_preset_vocabulary: true
 鸣鞭电抹	ming bian dian mo
 鸤	shi
 鸥	ou
-鸥波	o bo
+鸥波	ou bo
 鸦	ya
 鸧	cang
 鸨	bao
