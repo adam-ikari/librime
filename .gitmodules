@@ -13,6 +13,3 @@
 [submodule "marisa-trie"]
 	path = deps/marisa-trie
 	url = https://github.com/s-yata/marisa-trie.git
-[submodule "deps/librime"]
-	path = deps/librime
-	url = https://github.com/adam-ikari/librime-stl.git

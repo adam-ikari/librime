@@ -1,7 +1,0 @@
-greetings: "Greetings, Terrans!"
-zergs:
-  going: true
-  overmind:
-    greetings: "Zergsss are coming!"
-  statistics:
-    population: 1000000

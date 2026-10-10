@@ -1,7 +1,0 @@
-greetings: "Greetings, Terrans!"
-protoss:
-  residence: Aiur
-zergs:
-  going: true
-  statistics:
-    population: 500000

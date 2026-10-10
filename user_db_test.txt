@@ -1,6 +1,0 @@
-# Rime user dictionary
-#@/db_name	user_db_test
-#@/db_type	userdb
-#@/rime_version	1.17.0
-#@/user_id	unknown
-abc	def	ZYX WVU

@@ -16,6 +16,18 @@ deps/opencc/build/
 plugins/*/
 env.bat
 node_modules/
+# rime_test writes these byproducts into its working directory; never commit.
+/user.yaml
+/user_db_test.txt
+/config_rewriter_test.yaml
+/config_round_trip_test.yaml
+/config_writer_test.yaml
+/rime_configxx_test.yaml
+/prism_test.bin
+/syllabifier_test.bin
+/table_test.bin
+/corrector_simple_test.prism.bin
+/corrector_test.prism.bin
 *~
 .*.swp
 .cache/

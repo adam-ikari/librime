@@ -8,17 +8,28 @@
 //
 #include <fstream>
 #include <filesystem>
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#else
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#endif
 #include <rime/dict/mapped_file.h>
 
 namespace rime {
 
-// Minimal boost::interprocess::{file_mapping, mapped_region} replacement using
-// POSIX mmap. Provides the subset mapped_file.cc needs: open a file, map it
-// read-only or read-write, expose address/size, flush, and remove.
+// Minimal boost::interprocess::{file_mapping, mapped_region} replacement.
+// Provides the subset mapped_file.cc needs: open a file, map it read-only or
+// read-write, expose address/size, flush, and remove — POSIX mmap below the
+// fold, CreateFileMapping/MapViewOfFile on Windows.
 class MappedFileImpl {
  public:
   enum OpenMode {
@@ -27,6 +38,49 @@ class MappedFileImpl {
   };
 
   MappedFileImpl(const path& file_path, OpenMode mode) {
+#ifdef _WIN32
+    HANDLE file = ::CreateFileW(
+        file_path.c_str(),
+        (mode == kOpenReadOnly) ? GENERIC_READ : GENERIC_READ | GENERIC_WRITE,
+        FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL,
+        nullptr);
+    if (file == INVALID_HANDLE_VALUE)
+      return;
+    file_ = file;
+    LARGE_INTEGER file_size{};
+    if (!::GetFileSizeEx(file, &file_size)) {
+      ::CloseHandle(file);
+      file_ = nullptr;
+      return;
+    }
+    size_ = static_cast<size_t>(file_size.QuadPart);
+    if (size_ > 0) {
+      // A mapping of zero bytes is invalid on Windows; skip it, as the POSIX
+      // path does for empty files.
+      HANDLE mapping = ::CreateFileMappingW(
+          file, nullptr,
+          (mode == kOpenReadOnly) ? PAGE_READONLY : PAGE_READWRITE, 0, 0,
+          nullptr);
+      if (!mapping) {
+        ::CloseHandle(file);
+        file_ = nullptr;
+        size_ = 0;
+        return;
+      }
+      mapping_ = mapping;
+      addr_ = ::MapViewOfFile(mapping,
+                              (mode == kOpenReadOnly) ? FILE_MAP_READ
+                                                      : FILE_MAP_WRITE,
+                              0, 0, 0);
+      if (!addr_) {
+        ::CloseHandle(mapping);
+        ::CloseHandle(file);
+        mapping_ = nullptr;
+        file_ = nullptr;
+        size_ = 0;
+      }
+    }
+#else
     int flags = (mode == kOpenReadOnly) ? O_RDONLY : O_RDWR;
     fd_ = ::open(file_path.c_str(), flags);
     if (fd_ < 0) return;
@@ -47,27 +101,50 @@ class MappedFileImpl {
       }
     }
     addr_ = addr;
-    writable_ = (mode == kOpenReadWrite);
+#endif
   }
   ~MappedFileImpl() {
+#ifdef _WIN32
+    if (addr_) ::UnmapViewOfFile(addr_);
+    if (mapping_) ::CloseHandle(mapping_);
+    if (file_) ::CloseHandle(file_);
+#else
     if (addr_) ::munmap(addr_, size_);
     if (fd_ >= 0) ::close(fd_);
+#endif
   }
   bool Flush() {
     if (!addr_) return false;
+#ifdef _WIN32
+    // FlushViewOfFile writes the dirty pages of the mapped view back to the
+    // file — the analog of msync(MS_SYNC). (FlushFileBuffers is deliberately
+    // not used: it fails on a read-only handle.)
+    return ::FlushViewOfFile(addr_, size_) != 0;
+#else
     return ::msync(addr_, size_, MS_SYNC) == 0;
+#endif
   }
   void* get_address() const { return addr_; }
   size_t get_size() const { return size_; }
 
-  // Replaces boost::interprocess::file_mapping::remove — just unlink the file.
-  static bool remove(const char* path) { return ::unlink(path) == 0; }
+  // Replaces boost::interprocess::file_mapping::remove.
+  static bool remove(const path& file_path) {
+#ifdef _WIN32
+    return ::DeleteFileW(file_path.c_str()) != 0;
+#else
+    return ::unlink(file_path.c_str()) == 0;
+#endif
+  }
 
  private:
+#ifdef _WIN32
+  void* file_ = nullptr;     // HANDLE
+  void* mapping_ = nullptr;  // HANDLE
+#else
   int fd_ = -1;
+#endif
   void* addr_ = nullptr;
   size_t size_ = 0;
-  bool writable_ = false;
 };
 
 MappedFile::MappedFile(const path& file_path) : file_path_(file_path) {}
@@ -149,7 +226,7 @@ bool MappedFile::ShrinkToFit() {
 bool MappedFile::Remove() {
   if (IsOpen())
     Close();
-  return MappedFileImpl::remove(file_path_.c_str());
+  return MappedFileImpl::remove(file_path_);
 }
 
 bool MappedFile::Resize(size_t capacity) {
